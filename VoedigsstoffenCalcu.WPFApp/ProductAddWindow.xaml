@@ -1,0 +1,46 @@
+﻿<Window x:Class="VoedigsstoffenCalcu.WPFApp.ProductAddWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
+        mc:Ignorable="d"
+        Title="Nieuw Product Toevoegen" Height="450" Width="600">
+    <Grid>
+        <StackPanel x:Name="StackPanelProduct" Margin="10" Orientation="Horizontal">
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0"  Orientation="Vertical">
+                <Label Content="Stap 1 voer de gepaste waardes in voor 100g"></Label>
+                <Label Margin="11,5,0,0" Content="Kilocalorieën"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Kilocalorieën, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Kilojoules"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Kilojoules, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Water"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Water, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Koolhydraten"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Koolhydraten, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Suikers"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Suikers, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Vet"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Vet, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Eiwit"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Eiwit, Mode=TwoWay }" Width="120" ></TextBox>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10,35,10,0" Orientation="Vertical">
+                <Label Margin="11,5,0,0" Content="Verzadigd Vet"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding VerzadigdVet, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Enkelvoudig Onverzadigd Vet"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding EnkelvoudigOnverzadigdVet, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Meervoudig Onverzadigde Vetzuren"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding MeervoudigOnverzadigdeVetzuren, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Cholesterol"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Cholesterol, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Vezels"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Vezels, Mode=TwoWay}" Width="120" ></TextBox>
+                <Label  Content="Stap 2 Voer de naam in"></Label>
+                <TextBox HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Naam, Mode=TwoWay}" Width="120" ></TextBox>
+                <Label   Content="Stap 3 voeg het nieuwe product toe aan de database"></Label>
+                <Button x:Name="ButtonVoegToe" Margin="0,10,0,0" Width="120" Height="30" HorizontalAlignment="Center" Content="Voeg toe"></Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

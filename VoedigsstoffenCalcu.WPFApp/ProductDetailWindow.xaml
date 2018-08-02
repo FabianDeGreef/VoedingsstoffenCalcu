@@ -1,0 +1,47 @@
+﻿<Window x:Class="VoedigsstoffenCalcu.WPFApp.ProductDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
+        mc:Ignorable="d"
+        Title="Detail per geselecteerde product" Height="410" Width="380">
+    <Grid>
+        <StackPanel x:Name="StackPanelProduct" Margin="5" Orientation="Horizontal">
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5"  Orientation="Vertical">
+                <Label Margin="11,5,0,0" Content="Naam"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Naam, Mode=TwoWay}" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Product ID"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding ProductId, Mode=TwoWay}" Width="120" ></TextBox>
+
+                <Label Margin="11,5,0,0" Content="Kilocalorieën"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Kilocalorieën, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Kilojoules"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Kilojoules, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Water"></Label>
+                <TextBox IsEnabled="False"  HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Water, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Koolhydraten"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Koolhydraten, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Suikers"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Suikers, Mode=TwoWay }" Width="120" ></TextBox>
+            </StackPanel>
+
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5" Orientation="Vertical">
+                <Label Margin="11,5,0,0" Content="Vet"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Vet, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Eiwit"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Eiwit, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Verzadigd Vet"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding VerzadigdVet, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Enkelvoudig Onverzadigd Vet"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding EnkelvoudigOnverzadigdVet, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Meervoudig Onverzadigde Vetzuren"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding MeervoudigOnverzadigdeVetzuren, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Cholesterol"></Label>
+                <TextBox IsEnabled="False"  HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Cholesterol, Mode=TwoWay }" Width="120" ></TextBox>
+                <Label Margin="11,5,0,0" Content="Vezels"></Label>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Vezels, Mode=TwoWay}" Width="120" ></TextBox>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

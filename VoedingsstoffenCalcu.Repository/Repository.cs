@@ -1,26 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations;
-using System.Data.Entity.Validation;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VoedingsstoffenCalcu.DomainClasses;
-using VoedingsstoffenCalcu.DomainModel;
 
-namespace VoedingsstoffenCalcu.Repository
+namespace VoedingsstoffenCalcu.Repository.Lite
 {
-    public class Repository
+    public static class Repository
     {
         public static List<Product> SearchProductContainsCharacters(string character)
         {
-            using (var context  = new VoedingsstoffenContext())
+            using (var context = new VoedingsstoffenContext())
             {
                 try
                 {
-                    return context.Products.Where(s => s.Naam.ToLower().Contains(character.ToLower())).ToList();
+                    return context.Products.Find(s => s.Naam.ToLower().Contains(character.ToLower())).ToList();
                 }
                 catch (ArgumentNullException e)
                 {
@@ -40,7 +33,7 @@ namespace VoedingsstoffenCalcu.Repository
                 {
                     foreach (var id in productIds)
                     {
-                        products.Add(context.SavedProducts.FirstOrDefault(s => s.SavedProductId == id.SavedProductId));
+                        products.Add(context.SavedProducts.FindOne(s => s.SavedProductId == id.SavedProductId));
                     }
                     return products;
                 }
@@ -58,7 +51,14 @@ namespace VoedingsstoffenCalcu.Repository
             {
                 try
                 {
-                    return context.DayEntrys.Include("Result").Include("SavedProducts").FirstOrDefault(d => d.CurentDate.Day == date.Day && d.CurentDate.Month == date.Month && d.CurentDate.Year == date.Year);
+                    foreach (var x in context.DayEntrys.FindAll())
+                    {
+                        if (x.CurentDate.Day == date.Day && x.CurentDate.Month == date.Month && x.CurentDate.Year == date.Year)
+                        {
+                            return x;
+                        }
+                    }
+                    return null;
                 }
                 catch (ArgumentNullException e)
                 {
@@ -74,10 +74,9 @@ namespace VoedingsstoffenCalcu.Repository
             {
                 try
                 {
-                    context.DayEntrys.Add(dayEntryNew);
-                    return context.SaveChanges();
+                    return context.DayEntrys.Insert(dayEntryNew) != null ? 1 : 0;
                 }
-                catch (DbEntityValidationException e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e);
                     throw;
@@ -92,30 +91,25 @@ namespace VoedingsstoffenCalcu.Repository
             {
                 try
                 {
-                    DayEntry dayEntry = context.DayEntrys.Include("Result").Include("SavedProducts").FirstOrDefault(w => w.DayEntryId == updateDayEntry.DayEntryId);
+                    DayEntry dayEntry = context.DayEntrys.Include("Result").Include("SavedProducts").FindOne(w => w.DayEntryId == updateDayEntry.DayEntryId);
                     if (dayEntry != null)
                     {
                         dayEntry.SavedProducts.AddRange(updateDayEntry.SavedProducts);
                         dayEntry.Result = updateDayEntry.Result;
-                        context.DayEntrys.AddOrUpdate(dayEntry);
+                        return context.DayEntrys.Update(dayEntry) ? 1 : 0;
                     }
-                    return context.SaveChanges();
+                    return 0;
                 }
                 catch (ArgumentNullException e)
                 {
                     Console.WriteLine(e);
                     throw;
                 }
-                catch (DbEntityValidationException e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e);
                     throw;
                 }
-                catch (NullReferenceException e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }     
             }
         }
 
@@ -125,15 +119,9 @@ namespace VoedingsstoffenCalcu.Repository
             {
                 try
                 {
-                    context.Products.AddOrUpdate(updateProduct);
-                    return context.SaveChanges();
+                    return context.Products.Update(updateProduct) ? 1 : 0;
                 }
-                catch (DbEntityValidationException e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-                catch (DbUpdateException e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e);
                     throw;
@@ -147,10 +135,9 @@ namespace VoedingsstoffenCalcu.Repository
             {
                 try
                 {
-                    context.Products.Add(newProduct);
-                    return context.SaveChanges();
+                    return context.Products.Insert(newProduct);
                 }
-                catch (DbEntityValidationException e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e);
                     throw;
@@ -164,16 +151,14 @@ namespace VoedingsstoffenCalcu.Repository
             {
                 try
                 {
-                    Product deleteProduct = context.Products.FirstOrDefault(w => w.ProductId == id);
-                    if (deleteProduct != null) context.Products.Remove(deleteProduct);
-                    return context.SaveChanges();
+                    return context.Products.Delete(w => w.ProductId == id);
                 }
-                catch(ArgumentNullException e)
+                catch (ArgumentNullException e)
                 {
                     Console.WriteLine(e);
                     throw;
                 }
-                catch (DbEntityValidationException e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e);
                     throw;
@@ -182,3 +167,4 @@ namespace VoedingsstoffenCalcu.Repository
         }
     }
 }
+

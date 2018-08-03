@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VoedingsstoffenCalcu.DomainClasses;
-using VoedingsstoffenCalcu.Repository;
+using VoedingsstoffenCalcu.Repository.Lite;
 
 namespace VoedigsstoffenCalcu.WPFApp
 {
@@ -34,6 +35,10 @@ namespace VoedigsstoffenCalcu.WPFApp
             MenuItemProductAanpassen.Click += MenuItemProductAanpassen_Click;
             VoedingsstoffenListView.SelectionChanged += VoedingsstoffenListView_SelectionChanged;
             VoedingsstoffenListView.MouseDoubleClick += VoedingsstoffenListView_MouseDoubleClick;
+
+            string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string path = (System.IO.Path.GetDirectoryName(executable));
+            AppDomain.CurrentDomain.SetData("DataDirectory", path);
         }
 
 
@@ -46,7 +51,7 @@ namespace VoedigsstoffenCalcu.WPFApp
         }
 
         private void MenuItemProductVerwijderen_Click(object sender, RoutedEventArgs e)
-        {                
+        {
             if (Repository.DeleteExistingProduct(((Product)VoedingsstoffenListView.SelectedItem).ProductId) != 0)
             {
                 MessageBox.Show("Het product is verwijderd");
@@ -141,7 +146,7 @@ namespace VoedigsstoffenCalcu.WPFApp
             {
                 MessageBox.Show(e.Message);
             }
-   
+
         }
 
         private void ListViewCalcu_OnPreviewKeyDown(object sender, KeyEventArgs e)

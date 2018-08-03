@@ -51,9 +51,7 @@
     <Compile Include="VoedingsstoffenTotal.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="VoedingsTabelV2.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="VoedingsTabelV2.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using VoedingsstoffenCalcu.DomainClasses;
-using VoedingsstoffenCalcu.Repository;
+using VoedingsstoffenCalcu.Repository.Lite;
 
 namespace VoedigsstoffenCalcu.WPFApp
 {

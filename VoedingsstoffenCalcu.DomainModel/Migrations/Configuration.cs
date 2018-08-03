@@ -13,8 +13,6 @@ namespace VoedingsstoffenCalcu.DomainModel.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            AppDomain.CurrentDomain.SetData("DataDirectory", "C:Users/Fabian/Documents/Visual Studio 2017/Projects/VoedingsstoffenCalcu/VoedigsstoffenCalcu.WPFApp/VoedingsstoffenDb.mdf");
-
         }
 
         protected override void Seed(VoedingsstoffenCalcu.DomainModel.VoedingsstoffenContext context)

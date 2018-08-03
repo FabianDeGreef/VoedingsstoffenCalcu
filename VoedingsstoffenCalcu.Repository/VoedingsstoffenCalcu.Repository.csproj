@@ -36,6 +36,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -48,17 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository.cs" />
+    <Compile Include="VoedingsstoffenContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VoedingsstoffenCalcu.DomainClasses\VoedingsstoffenCalcu.DomainClasses.csproj">
       <Project>{D618D7F4-2FD4-4C19-9CD1-A76793BE2317}</Project>
       <Name>VoedingsstoffenCalcu.DomainClasses</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VoedingsstoffenCalcu.DomainModel\VoedingsstoffenCalcu.DomainModel.csproj">
-      <Project>{8AFD5E9B-71DC-4A3C-99EF-E5822F4A6FB1}</Project>
-      <Name>VoedingsstoffenCalcu.DomainModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -62,10 +62,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201808022051312_Initial.cs" />
-    <Compile Include="Migrations\201808022051312_Initial.Designer.cs">
-      <DependentUpon>201808022051312_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="VoedingsstoffenContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -90,11 +86,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808022051312_Initial.resx">
-      <DependentUpon>201808022051312_Initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

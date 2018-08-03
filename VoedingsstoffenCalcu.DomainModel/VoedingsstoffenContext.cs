@@ -9,11 +9,13 @@ using VoedingsstoffenCalcu.DomainClasses;
 
 namespace VoedingsstoffenCalcu.DomainModel
 {
-    public class VoedingsstoffenContext :DbContext
+    public class VoedingsstoffenContext : DbContext
     {
-        public VoedingsstoffenContext() :base ("name=VoedingsstoffenDb")
+        //Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename="VoedingsstoffenDb.mdf";Integrated Security=True
+        public VoedingsstoffenContext() : base("VoedingsstoffenDb")
         {
-            //"VoedingsstoffenDb")
+            //base("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|VoedingsstoffenDb.mdf;Integrated Security=True") 
+            //base ("name =VoedingsstoffenDb")
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<DayEntry> DayEntrys { get; set; }
@@ -22,8 +24,9 @@ namespace VoedingsstoffenCalcu.DomainModel
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-                //"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\VoedingsstoffenDb.mdf;Integrated Security=True;Connect Timeout=30";
-                 modelBuilder.Entity<DayEntry>()
+            //"Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"VoedingsstoffenDb.mdf\";Integrated Security=True"
+            //"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\VoedingsstoffenDb.mdf;Integrated Security=True;Connect Timeout=30";
+            modelBuilder.Entity<DayEntry>()
                 .HasRequired(s => s.Result)
                 .WithRequiredPrincipal(ad => ad.DayEntry);
 

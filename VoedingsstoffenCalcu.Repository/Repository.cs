@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Voedingsstoffen.DomainModel.Lite;
 using VoedingsstoffenCalcu.DomainClasses;
 
 namespace VoedingsstoffenCalcu.Repository.Lite

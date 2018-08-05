@@ -9,11 +9,12 @@ namespace VoedingsstoffenCalcu.DomainClasses
 {
     public class DataLoader
     {
-        public static List<Product> Loader()
+        public static List<Product> Loader(string file)
         {
-            List<Product> productList = new List<Product>();
-            using (var reader = new StreamReader(@"\VoedingsTabelV2.csv"))
-            {  
+            using (var reader = new StreamReader(file))
+            {
+                List<Product> productList = new List<Product>();
+
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
@@ -39,8 +40,8 @@ namespace VoedingsstoffenCalcu.DomainClasses
                         productList.Add(product);
                     }
                 }
+                return productList;
             }
-            return productList;
         }
     }
 }

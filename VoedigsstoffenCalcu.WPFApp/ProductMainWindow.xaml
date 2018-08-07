@@ -5,70 +5,126 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         mc:Ignorable="d"
-        Title="Voedingstoffen Calcu" Height="500" Width="840">
+        Title="Voedingsstoffen Calculator" Height="525" Width="850" SizeToContent="WidthAndHeight" >
     <Window.Resources>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
+
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="FontWeight" Value="bold" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style x:Key="RoundButtonTemplate" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="{TemplateBinding Background}"
+                                BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+
+
     </Window.Resources>
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Beheer">
+        <Menu Background="White" DockPanel.Dock="Top">
+            <MenuItem FontSize="13" FontWeight="DemiBold" Header="Beheer">
                 <MenuItem x:Name="MenuItemNieuwProduct" Header="_Nieuw Product" />
                 <MenuItem x:Name="MenuItemProductVerwijderen" IsEnabled="False" Header="_Porduct Verwijderen" />
                 <MenuItem x:Name="MenuItemProductAanpassen" IsEnabled="False" Header="_Product Aanpassen" />
                 <Separator />
                 <MenuItem x:Name="MenuItemExit" Header="_Exit" />
             </MenuItem>
-            <MenuItem Header="_Help">
+            <MenuItem  FontSize="13" FontWeight="DemiBold"   Header="_Help">
                 <MenuItem x:Name="MenuItemHelp" Header="_About" />
             </MenuItem>
         </Menu>
-        <Grid>
-            <StackPanel Margin="10" Orientation="Horizontal">
-            <StackPanel Orientation="Vertical">
+        <Grid Background="LightSkyBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*" />
+                <ColumnDefinition Width="20*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90*" />
+                <RowDefinition Height="90*" />
+                <RowDefinition Height="190*" />
+                <RowDefinition Height="60*" />
+            </Grid.RowDefinitions>
+
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" Margin="10" >
                 <Label Margin="10,10,10,5" Content="Stap 1: Zoek het  gewenste product"></Label>
                 <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="TextBoxSearch" PreviewKeyDown="TextBoxSearch_OnPreviewKeyDown" Margin="10,5,10,10"  BorderBrush="Black" Width="200" BorderThickness="1" Height="30" ></TextBox>
-                    <Button x:Name="ButtonSearch" Margin="0,0,0,5" Height="30" Width="90" Content="Zoeken"></Button>
+                    <TextBox x:Name="TextBoxSearch" FontWeight="DemiBold" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Background="White" PreviewKeyDown="TextBoxSearch_OnPreviewKeyDown" Margin="10,5,10,10"  BorderBrush="AliceBlue" Width="200" BorderThickness="0" Height="30" />
+                    <Button x:Name="ButtonSearch" FontWeight="Bold" FontSize="13" Style="{StaticResource RoundButtonTemplate}" Margin="0,0,0,5" Height="30" Width="90" Content="Zoeken"></Button>
                 </StackPanel>
+            </StackPanel>
 
-                <Label Margin="10,5,10,2"  Width="300" Height="30" Content="Stap 3: Voer gewicht in (100)"></Label>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Margin="10" >
+                <Label Margin="10,5,10,2" Width="300" Height="30" Content="Stap 3: Voer gewicht in (100)"></Label>
                 <StackPanel Orientation="Horizontal">
-                        <TextBox x:Name="TextBoxEnter" PreviewKeyDown="TextBoxEnter_OnPreviewKeyDown" IsEnabled="false" Margin="10,5,10,10"  BorderBrush="Black" Width="200" BorderThickness="1" Height="30" ></TextBox>
-                        <Button x:Name="ButtonEnter" IsEnabled="False" Margin="0,0,0,5" Height="30" Width="90" Content="Ingeven"></Button>
+                    <TextBox Background="White" FontWeight="DemiBold" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  x:Name="TextBoxEnter" PreviewKeyDown="TextBoxEnter_OnPreviewKeyDown" IsEnabled="false" Margin="10,5,10,10"  BorderBrush="AliceBlue" Width="200" BorderThickness="0" Height="30" ></TextBox>
+                    <Button x:Name="ButtonEnter" FontSize="13" FontWeight="Bold" Style="{StaticResource RoundButtonTemplate}" IsEnabled="False" Margin="0,0,0,5" Height="30" Width="90" Content="Ingeven"></Button>
                 </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Margin="10" >
                 <Label Content="Stap 4: Berekende hoeveelheid" Margin="10,5,10,2"  Width="300" Height="30"></Label>
                 <ListView Name="ListViewCalcu" PreviewKeyDown="ListViewCalcu_OnPreviewKeyDown" Margin="10,5,10,10" BorderThickness="1" BorderBrush="Black" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" Width="300" Height="150" ItemsSource="{Binding}">
                     <ListView.View>
                         <GridView>
 
-                            <!--<GridViewColumn Header="Naam" Width="150" DisplayMemberBinding="{Binding Naam, StringFormat=d}"/>-->
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style>
 
+                                    <Style.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="2"/>
+                                        </Style>
+                                    </Style.Resources>
+                                    <Setter Property="TextElement.FontSize"
+                                            Value="13" />
+                                    <Setter Property="TextElement.FontWeight"
+                                            Value="DemiBold" />
+                                </Style>
+
+                            </GridView.ColumnHeaderContainerStyle>
                             <GridViewColumn Header="Naam" Width="150">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Naam}" TextAlignment="Left"/>
+                                        <TextBlock Text="{Binding Naam}" FontWeight="Bold" FontSize="13" TextAlignment="Left"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-
-                            <!--<GridViewColumn Header="Kh" Width="60" DisplayMemberBinding="{Binding Koolhydraten, StringFormat={}{0:0.0}}"/>-->
-
                             <GridViewColumn Header="Kh" Width="60">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Koolhydraten, StringFormat={}{0:0.0}}" TextAlignment="Right"/>
+                                        <TextBlock Text="{Binding Koolhydraten, StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Right"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-
-                            <!--<GridViewColumn Header="Kcal" Width="60" DisplayMemberBinding="{Binding Kilocalorieën, StringFormat={}{0:0.0}}"/>-->
-
                             <GridViewColumn Header="Kcal" Width="60">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Kilocalorieën , StringFormat={}{0:0.0}}" TextAlignment="Right"/>
+                                        <TextBlock Text="{Binding Kilocalorieën , StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Right"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -76,55 +132,68 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="ButtonReset" Margin="10,5,10,10" Width="120" Content="Reset"></Button>
-                    <Button x:Name="ButtonDagTotaal" Margin="10,5,10,10" Width="120" Content="Voeg toe aan dag"></Button>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Grid.Column="0" Grid.Row="3" >
+                <StackPanel Orientation="Horizontal" Margin="25,0,0,15">
+                    <Button x:Name="ButtonReset" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource RoundButtonTemplate}" Margin="10" Width="120" Height="30" Content="Reset"></Button>
+                    <Button x:Name="ButtonDagTotaal" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource RoundButtonTemplate}" Margin="10" Width="120" Height="30" Content="Voeg toe aan dag"></Button>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Vertical">
+            <!--</StackPanel>-->
+
+            <StackPanel Orientation="Vertical"  VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="4" Grid.Column="1" Margin="10" >
                 <Label Margin="10,10,10,5" HorizontalAlignment="Center" Content="Stap 2: Selecteer het product" VerticalAlignment="Top"></Label>
-                <ListView Name="VoedingsstoffenListView" ScrollViewer.VerticalScrollBarVisibility="Visible"
-                          ScrollViewer.CanContentScroll="True" Margin="5,10,0,0" BorderThickness="1" BorderBrush="Black" Width="450" Height="350" ItemsSource="{Binding}">
+                <ListView PreviewKeyDown="VoedingsstoffenListView_OnPreviewKeyDown" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" Height="390" Name="VoedingsstoffenListView" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.CanContentScroll="True" BorderThickness="1" BorderBrush="Black" Width="auto" ItemsSource="{Binding}">
+                
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Code" Width="40" DisplayMemberBinding="{Binding ProductId}"/>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style>
+                                    <Style.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="2"/>
 
-                            <!--<GridViewColumn Header="Naam" Width="180" DisplayMemberBinding="{Binding Naam, StringFormat=d}"/>-->
-
+                                        </Style>
+                                    </Style.Resources>
+                                    <Setter Property="TextElement.FontSize"
+                                            Value="13" />
+                                    <Setter Property="TextElement.FontWeight"
+                                            Value="DemiBold" />
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn Header="Code" Width="45">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ProductId}" FontWeight="Bold" FontSize="13" TextAlignment="Left"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="Naam" Width="180">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Naam}" TextAlignment="Left"/>
+                                        <TextBlock Text="{Binding Naam}" FontWeight="Bold" FontSize="13" TextAlignment="Left"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-
-                            <!--<GridViewColumn Header="Kh per 100g" Width="100" DisplayMemberBinding="{Binding Koolhydraten, StringFormat={}{0:0.0}}"/>-->
-
                             <GridViewColumn Header="Kh per 100g" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Koolhydraten, StringFormat={}{0:0.0}}" TextAlignment="Right"/>
+                                        <TextBlock Text="{Binding Koolhydraten, StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Right"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-
-                            <!--<GridViewColumn Header="Kcal per 100g" Width="100" DisplayMemberBinding="{Binding Kilocalorieën, StringFormat={}{0:0.0}}"/>-->
-
                             <GridViewColumn Header="Kcal per 100g" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Kilocalorieën, StringFormat={}{0:0.0}}" TextAlignment="Right"/>
+                                        <TextBlock Text="{Binding Kilocalorieën, StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Right"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-
                         </GridView>
                     </ListView.View>
                 </ListView>
             </StackPanel>
-        </StackPanel>
-
-    </Grid>
+        </Grid>
     </DockPanel>
 </Window>

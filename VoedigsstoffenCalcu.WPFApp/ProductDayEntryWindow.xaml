@@ -6,107 +6,448 @@
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="ProductDayEntryWindow" Height="450" Width="600">
+        Title="ProductDayEntryWindow" Height="740" Width="600">
     <Window.Resources>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
+
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="FontWeight" Value="bold" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style x:Key="RoundButtonTemplate" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="{TemplateBinding Background}"
+                                BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="styleDatePickerCalendarButton" TargetType="{x:Type CalendarButton}">
+            <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CalendarButton}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border_today"
+                            CornerRadius="10"
+                            Background="#FFFFFF"
+                            BorderBrush="#9A9A9A"
+                            BorderThickness="1"
+                            Visibility="Collapsed"></Border>
+                            <Border x:Name="border" CornerRadius="3">
+                                <TextBlock x:Name="block"
+                                   Foreground="#3A3A3A"
+                                   FontSize="12"
+                                   Text="{TemplateBinding Content}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center">
+                                </TextBlock>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsInactive" Value="True">
+                                <Setter TargetName="block"
+                                Property="Foreground"
+                                Value="{DynamicResource ResourceKey=brushForegroundDisabled}">
+                                </Setter>
+                                <Setter Property="IsEnabled"
+                                Value="False">
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="HasSelectedDays" Value="True">
+                                <Setter TargetName="border_today"
+                                Property="Visibility"
+                                Value="Visible">
+                                </Setter>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition SourceName="border"
+                                       Property="IsMouseOver"
+                                       Value="True">
+                                    </Condition>
+                                    <Condition Property="IsInactive"
+                                       Value="False">
+                                    </Condition>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter TargetName="border"
+                                    Property="Background"
+                                    Value="#66CED3C4">
+                                    </Setter>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="styleDatePickerCalendarItem" TargetType="{x:Type CalendarItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CalendarItem}">
+                        <ControlTemplate.Resources>
+                            <DataTemplate x:Key="{x:Static CalendarItem.DayTitleTemplateResourceKey}">
+                                <Label>
+                                    <TextBlock Foreground="#F7F7F7"
+                                       FontSize="20"     
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"
+                                       Margin="2"
+                                       Text="{Binding}"
+                                       VerticalAlignment="Center">
+                                    </TextBlock>
+                                </Label>
+                            </DataTemplate>
+                        </ControlTemplate.Resources>
+                        <Border Background="CadetBlue"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        BorderBrush="{DynamicResource ResourceKey=brushBorderControl}"
+                        Padding="3">
+                            <Grid Name="PART_Root">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <DockPanel Grid.Column="0"
+                                   Grid.Row="0"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Stretch"
+                                   LastChildFill="True">
+                                    <Button x:Name="PART_PreviousButton"
+                                    DockPanel.Dock="Left"
+                                            Style="{StaticResource RoundButtonTemplate}"
+                                            FontWeight="Bold"
+                                            Width="25"
+                                            Height="35"
+                                            FontSize="20"
+                                    Background="White"
+                                    BorderThickness="0"
+                                    Content="&lt;"
+                                    Focusable="False"></Button>
+                                    <Button x:Name="PART_NextButton" 
+                                    DockPanel.Dock="Right"
+                                            Style="{StaticResource RoundButtonTemplate}"
+                                            FontWeight="Bold"
+                                            Width="25"
+                                            Height="35"
+                                            FontSize="20"
+                                            Background="White"
+                                            BorderThickness="0"
+
+                                    Content="&gt;" Focusable="False">
+                                    </Button>
+                                    <Button x:Name="PART_HeaderButton"
+                                            Style="{StaticResource RoundButtonTemplate}"
+                                            FontWeight="Bold"
+                                            Width="125"
+                                            Height="35"
+                                            FontSize="15"
+                                            Background="White"
+                                            BorderThickness="0"
+                                            MaxWidth="150">
+                                    </Button>
+                                </DockPanel>
+                                <Grid Grid.Column="0"
+                              Grid.Row="1"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center">
+                                    <Grid x:Name="PART_MonthView">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                    </Grid>
+                                    <Grid x:Name="PART_YearView">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                    </Grid>
+                                </Grid>
+                                <Rectangle x:Name="PART_DisabledVisual"
+                                   Opacity="0"
+                                   Visibility="Collapsed"
+                                   Fill="#F5F5F5"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="styleDatePickerCalendarDayButton" TargetType="{x:Type CalendarDayButton}">
+            <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CalendarDayButton}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border_today"
+                            CornerRadius="10"
+                            Background="#FFFFFF"
+                            BorderBrush="#9A9A9A"
+                            BorderThickness="1"
+                            Visibility="Collapsed">
+                            </Border>
+                            <Border x:Name="border_selected"
+                            CornerRadius="10"
+                            Background="#E7E7E7"
+                            BorderBrush="#9A5A9A"
+                            BorderThickness="1"
+                            Visibility="Collapsed">
+                            </Border>
+                            <Border x:Name="border" CornerRadius="3">
+                                <TextBlock x:Name="block" 
+                                   Foreground="#3A3A3A" 
+                                   Margin="10,3,10,3" 
+                                   Text="{TemplateBinding Content}"
+                                   FontSize="15"
+                                   Width="40"
+                                   Height="30"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"></TextBlock>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsInactive" Value="True">
+                                <Setter TargetName="block"
+                                Property="Foreground"
+                                Value="{DynamicResource ResourceKey=brushForegroundDisabled}">
+                                </Setter>
+                                <Setter Property="IsEnabled" Value="False"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsToday" Value="True">
+                                <Setter TargetName="border_today" Property="Visibility" Value="Visible"></Setter>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="True"></Condition>
+                                    <Condition Property="IsToday" Value="False"></Condition>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter TargetName="border_selected" Property="Visibility" Value="Visible"></Setter>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition SourceName="border"
+                                       Property="IsMouseOver"
+                                       Value="True">
+                                    </Condition>
+                                    <Condition Property="IsInactive"
+                                       Value="False">
+                                    </Condition>
+                                    <Condition Property="IsSelected"
+                                       Value="False">
+                                    </Condition>
+                                    <Condition Property="IsToday"
+                                       Value="False">
+                                    </Condition>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter TargetName="border"
+                                    Property="Background"
+                                    Value="{DynamicResource ResourceKey=brushBorderControlDisabled}">
+                                    </Setter>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
     </Window.Resources>
 
-    <Grid>
-        <StackPanel Margin="10,10,10,10" Orientation="Horizontal">
-            <StackPanel Margin="10,10,10,10" Orientation="Vertical">
-                <Label Content="Selecteer de datum"></Label>
-                <DatePicker x:Name="DatePickerDatum" Margin="0,10,0,0" SelectedDate="{x:Static sys:DateTime.Now}" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Voeg nieuwe gevens toe"></Label>
-                    <Button x:Name="ButtonUpdate" Margin="0,10,0,0" Height="25"  Content="Update gegevens"></Button>
-                    <ListView  Name="ListViewAdding" VerticalAlignment="Top" HorizontalAlignment="Right" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" Margin="0,10,10,10" BorderThickness="1" BorderBrush="Black" Width="160" Height="240" ItemsSource="{Binding}">
-                        <ListView.View>
-                            <GridView>
+    <Grid Background="LightSkyBlue">
 
-                                <!--<GridViewColumn Header="Naam" Width="150" DisplayMemberBinding="{Binding Naam}"/>-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-                                <GridViewColumn Header="Naam" Width="150">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Naam}" TextAlignment="Left"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
 
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </StackPanel>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="10,5,5,5"  VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
+            <Label Content="Stap 1 Selecteer de datum"></Label>
+            <Calendar Margin="20,5,5,5" x:Name="CalendarDatum" CalendarDayButtonStyle="{StaticResource ResourceKey=styleDatePickerCalendarDayButton}" CalendarItemStyle="{StaticResource ResourceKey=styleDatePickerCalendarItem}" CalendarButtonStyle="{StaticResource ResourceKey=styleDatePickerCalendarButton}"/>
             </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <ListView Name="ListViewDagOverzicht" PreviewMouseDoubleClick="ListViewDagOverzicht_OnPreviewMouseDoubleClick" VerticalAlignment="Top" HorizontalAlignment="Right" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" Margin="5,10,0,0" BorderThickness="1" BorderBrush="Black" Width="380" Height="250" ItemsSource="{Binding}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Code" Width="50" DisplayMemberBinding="{Binding OrginalProductId}"/>
-           
-                            <!--<GridViewColumn Header="Naam" Width="180" DisplayMemberBinding="{Binding Naam}"/>-->
 
-                            <GridViewColumn Header="Naam" Width="180">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Naam}" TextAlignment="Left"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+        <StackPanel Orientation="Vertical" Margin="10,5,5,5" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+            <Label Content="Stap 2 Voeg nieuwe gevens toe"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="10,5,5,5" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="2">
+            <ListView  Name="ListViewAdding"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" BorderThickness="1" BorderBrush="Black" Width="auto" Height="200" ItemsSource="{Binding}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style>
+                                <Style.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </Style.Resources>
+                                <Setter Property="TextElement.FontSize"
+                                        Value="13" />
+                                <Setter Property="TextElement.FontWeight"
+                                        Value="DemiBold" />
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Header="Naam" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Naam}" FontWeight="Bold" FontSize="13" TextAlignment="Left"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
 
-                            <!--<GridViewColumn Header="Kh" Width="60" DisplayMemberBinding="{Binding Koolhydraten, StringFormat={}{0:0.0}}"/>-->
+        <StackPanel Orientation="Vertical" Margin="10,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3">
+            <Button x:Name="ButtonUpdate" FontWeight="Bold" FontSize="13"  Margin="10,5,5,5" Style="{StaticResource RoundButtonTemplate}"  Height="25" Width="120"  Content="Update gegevens"></Button>
+            <Button x:Name="ButtonExit" FontWeight="Bold" FontSize="13"  Margin="10,5,5,5" Style="{StaticResource RoundButtonTemplate}"  Height="25" Width="120"  Content="Sluiten"></Button>
 
-                            <GridViewColumn Header="Kh" Width="60">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Koolhydraten, StringFormat={}{0:0.0}}" TextAlignment="Right"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+        </StackPanel>
 
-                            <!--<GridViewColumn Header="Kcal" Width="60" DisplayMemberBinding="{Binding Kilocalorieën, StringFormat={}{0:0.0}}"/>-->
+        <StackPanel Orientation="Vertical" Grid.Row="2" Margin="10,5,5,5"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Column="1">
+            <ListView Name="ListViewDagOverzicht" PreviewMouseDoubleClick="ListViewDagOverzicht_OnPreviewMouseDoubleClick"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"  BorderThickness="1" BorderBrush="Black" Width="auto" Height="200" ItemsSource="{Binding}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style>
+                                <Style.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </Style.Resources>
+                                <Setter Property="TextElement.FontSize"
+                                        Value="13" />
+                                <Setter Property="TextElement.FontWeight"
+                                        Value="DemiBold" />
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Header="Code" Width="50">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding OrginalProductId}" FontWeight="Bold" FontSize="13" TextAlignment="Left"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Naam" Width="180">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Naam}" FontWeight="Bold" FontSize="13" TextAlignment="Left"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Kh" Width="60">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Koolhydraten, StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Right"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Kcal" Width="60">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Kilocalorieën, StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Right"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
 
-                            <GridViewColumn Header="Kcal" Width="60">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Kilocalorieën, StringFormat={}{0:0.0}}" TextAlignment="Right"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <ListView Name="ListViewResult" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,10,0,0" BorderThickness="1" BorderBrush="Black" Width="205" Height="80" ItemsSource="{Binding}">
-                    <ListView.View>
-                        <GridView>
-
-                            <!--<GridViewColumn Header="Kh Totaal" Width="100" DisplayMemberBinding="{Binding Koolhydraten, StringFormat={}{0:0.0}}"/>-->
-
-                            <GridViewColumn Header="Kh Totaal" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Koolhydraten, StringFormat={}{0:0.0}}" TextAlignment="Center"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <!--<GridViewColumn Header="Kcal Totaal" Width="100" DisplayMemberBinding="{Binding Kilocalorieën, StringFormat={}{0:0.0}}"/>-->
-
-                            <GridViewColumn Header="Kcal Totaal" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Kilocalorieën, StringFormat={}{0:0.0}}" TextAlignment="Center"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="3" Margin="10,5,5,5"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Column="1">
+            <ListView Name="ListViewResult"  BorderThickness="1" BorderBrush="Black" Width="auto" Height="80" ItemsSource="{Binding}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style>
+                                <Style.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </Style.Resources>
+                                <Setter Property="TextElement.FontSize"
+                                        Value="13" />
+                                <Setter Property="TextElement.FontWeight"
+                                        Value="DemiBold" />
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Header="Kh Totaal" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Koolhydraten,  StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Kcal Totaal" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Kilocalorieën, StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </StackPanel>
     </Grid>
 </Window>

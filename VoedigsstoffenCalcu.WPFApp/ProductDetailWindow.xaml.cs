@@ -15,9 +15,6 @@ using VoedingsstoffenCalcu.DomainClasses;
 
 namespace VoedigsstoffenCalcu.WPFApp
 {
-    /// <summary>
-    /// Interaction logic for ProductDetailWindow.xaml
-    /// </summary>
     public partial class ProductDetailWindow : Window
     {
         private readonly Product _currentProduct;
@@ -27,11 +24,17 @@ namespace VoedigsstoffenCalcu.WPFApp
             _currentProduct = new Product();
             _currentProduct = product;
             ViewProduct();
+            ButtonSluit.Click += ButtonSluit_Click;
+        }
+
+        private void ButtonSluit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void ViewProduct()
         {
-            StackPanelProduct.DataContext = _currentProduct;
+            GridProduct.DataContext = _currentProduct;
         }
     }
 }

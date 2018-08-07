@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VoedingsstoffenCalcu.DomainClasses;
-using VoedingsstoffenCalcu.Repository.Lite;
+using VoedingsstoffenCalcu.Repository;
 
 namespace VoedigsstoffenCalcu.WPFApp
 {
@@ -24,6 +24,7 @@ namespace VoedigsstoffenCalcu.WPFApp
         public ProductMainWindow()
         {
             InitializeComponent();
+            
             _calculateProducts = new List<SavedProduct>();
             ButtonSearch.Click += ButtonSearch_Click;
             ButtonEnter.Click += ButtonEnter_Click;
@@ -50,18 +51,25 @@ namespace VoedigsstoffenCalcu.WPFApp
             aanpassenProduct.Closed += AanpassenProduct_Closed;
         }
 
-        private void MenuItemProductVerwijderen_Click(object sender, RoutedEventArgs e)
+        private void DeleteProduct()
         {
             if (Repository.DeleteExistingProduct(((Product)VoedingsstoffenListView.SelectedItem).ProductId) != 0)
             {
-                MessageBox.Show("Het product is verwijderd");
+                ProductMessageWindow message = new ProductMessageWindow("Het product is verwijderd");
+                message.ShowDialog();
             }
             else
             {
-                MessageBox.Show("Het product is niet verwijderd");
+                ProductMessageWindow message = new ProductMessageWindow("Het product is niet verwijderd");
+                message.ShowDialog();
             }
             ResetDataContextVoedingsstoffen();
             SearchOnName();
+        }
+
+        private void MenuItemProductVerwijderen_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteProduct();
         }
 
         private void MenuItemNieuwProduct_Click(object sender, RoutedEventArgs e)
@@ -122,7 +130,8 @@ namespace VoedigsstoffenCalcu.WPFApp
                 }
                 catch (FormatException)
                 {
-                    MessageBox.Show("Voer een decimaal of geheel getal in");
+                    ProductMessageWindow message = new ProductMessageWindow("Voer een decimaal of geheel getal in");
+                    message.ShowDialog();
                     TextBoxEnter.Text = "";
                 }
             }
@@ -229,6 +238,14 @@ namespace VoedigsstoffenCalcu.WPFApp
         private void ResetDataContextCalcu()
         {
             ListViewCalcu.DataContext = null;
+        }
+
+        private void VoedingsstoffenListView_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                DeleteProduct();
+            }
         }
     }
 }

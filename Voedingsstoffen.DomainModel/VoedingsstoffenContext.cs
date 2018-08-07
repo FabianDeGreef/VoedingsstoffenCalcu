@@ -3,7 +3,7 @@ using System.IO;
 using LiteDB;
 using VoedingsstoffenCalcu.DomainClasses;
 
-namespace Voedingsstoffen.DomainModel.Lite
+namespace Voedingsstoffen.DomainModel
 {
     public class VoedingsstoffenContext : IDisposable
     {

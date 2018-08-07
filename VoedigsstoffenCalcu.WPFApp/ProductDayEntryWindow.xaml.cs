@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using VoedingsstoffenCalcu.DomainClasses;
-using VoedingsstoffenCalcu.Repository.Lite;
+using VoedingsstoffenCalcu.Repository;
 
 namespace VoedigsstoffenCalcu.WPFApp
 {
@@ -22,8 +22,14 @@ namespace VoedigsstoffenCalcu.WPFApp
             PopulateAddingList();
             CheckForEmptyProList();
             ButtonUpdate.Click += ButtonUpdate_Click;
-            DatePickerDatum.SelectedDateChanged += DatePickerDatum_SelectedDateChanged;
+            CalendarDatum.SelectedDatesChanged += DatePickerDatum_SelectedDatesChanged;
+            ButtonExit.Click += ButtonExit_Click;
             LoadDayEntryFromCurrentDay();
+        }
+
+        private void ButtonExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void PopulateAddingList()
@@ -39,9 +45,9 @@ namespace VoedigsstoffenCalcu.WPFApp
             }
         }
 
-        private void DatePickerDatum_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        private void DatePickerDatum_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (DatePickerDatum.SelectedDate != null) _currentDateTime = (DateTime) DatePickerDatum.SelectedDate;
+            if (CalendarDatum.SelectedDate != null) _currentDateTime = (DateTime)CalendarDatum.SelectedDate;
             _currentDayEntry = null;
             LoadDayEntryFromCurrentDay();
         }
@@ -60,8 +66,9 @@ namespace VoedigsstoffenCalcu.WPFApp
             }
             else
             {
-                MessageBoxResult result = MessageBox.Show("Voor de huidige datum worden nu nieuwe gegevens aangemaakt", "Gegevens aanmaken voor " + _currentDateTime.ToShortDateString(), MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                if (result == MessageBoxResult.OK)
+                ProductMessageDialog dialog = new ProductMessageDialog();
+                dialog.ShowDialog();
+                if (dialog.DialogResult == true)
                 {
                     DayEntry defaultDayEntry = new DayEntry()
                     {
@@ -71,13 +78,21 @@ namespace VoedigsstoffenCalcu.WPFApp
                     };
                     if (Repository.AddNewDayEntry(defaultDayEntry) != 0)
                     {
-                        MessageBox.Show("Nieuw dag overzicht aangemaakt");
+                        ProductMessageWindow message = new ProductMessageWindow("Nieuw dag overzicht aangemaakt");
+                        message.ShowDialog();
                         LoadDayEntryFromCurrentDay();
                     }
                     else
                     {
-                        MessageBox.Show("Nieuw dag overzicht niet aangemaakt");
+                        ProductMessageWindow message = new ProductMessageWindow("Nieuw dag overzicht niet aangemaakt");
+                        message.ShowDialog();
                     }
+                }
+                else
+                {
+                    ProductMessageWindow message = new ProductMessageWindow("Geen dag overzicht aangemaakt");
+                    message.ShowDialog();
+
                 }
             }
         }
@@ -103,11 +118,13 @@ namespace VoedigsstoffenCalcu.WPFApp
             };
             if (Repository.UpdateExistingDayEntry(dayEntryUpdate) != 0)
             {
-                MessageBox.Show("Het dag overzicht is bijgewerkt");
+                ProductMessageWindow message = new ProductMessageWindow("Het dag overzicht is bijgewerkt");
+                message.ShowDialog();
             }
             else
             {
-                MessageBox.Show("Het dag overzicht is niet bijgewerkt");
+                ProductMessageWindow message = new ProductMessageWindow("Het dag overzicht is niet bijgewerkt");
+                message.ShowDialog();
             }
             ButtonUpdate.IsEnabled = false;
             ListViewAdding.DataContext = null;

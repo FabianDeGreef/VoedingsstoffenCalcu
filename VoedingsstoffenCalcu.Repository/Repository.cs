@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Voedingsstoffen.DomainModel.Lite;
+using Voedingsstoffen.DomainModel;
 using VoedingsstoffenCalcu.DomainClasses;
 
-namespace VoedingsstoffenCalcu.Repository.Lite
+namespace VoedingsstoffenCalcu.Repository
 {
     public static class Repository
     {

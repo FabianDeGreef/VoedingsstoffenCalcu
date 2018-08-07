@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using VoedingsstoffenCalcu.DomainClasses;
-using VoedingsstoffenCalcu.Repository.Lite;
+using VoedingsstoffenCalcu.Repository;
 
 namespace VoedigsstoffenCalcu.WPFApp
 {
@@ -21,18 +21,20 @@ namespace VoedigsstoffenCalcu.WPFApp
             var product = _currentProduct;
             if (Repository.UpdateExistingProduct(_currentProduct) != 0)
             {
-                MessageBox.Show("Het product is gewijzigd");
+                ProductMessageWindow message = new ProductMessageWindow("Het product is gewijzigd");
+                message.ShowDialog();
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Het product is niet gewijzigd");
+                ProductMessageWindow message = new ProductMessageWindow("Het product is niet gewijzigd");
+                message.ShowDialog();
             }
         }
 
         private void ViewProduct()
         {
-            StackPanelProduct.DataContext = _currentProduct;
+            GridProduct.DataContext = _currentProduct;
         }
     }
 }

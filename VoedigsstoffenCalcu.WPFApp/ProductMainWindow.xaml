@@ -49,6 +49,8 @@
                 <MenuItem x:Name="MenuItemNieuwProduct" Header="_Nieuw Product" />
                 <MenuItem x:Name="MenuItemProductVerwijderen" IsEnabled="False" Header="_Porduct Verwijderen" />
                 <MenuItem x:Name="MenuItemProductAanpassen" IsEnabled="False" Header="_Product Aanpassen" />
+                <MenuItem x:Name="MenuItemResetDatabase" Header="_Database herbouwen" />
+
                 <Separator />
                 <MenuItem x:Name="MenuItemExit" Header="_Exit" />
             </MenuItem>

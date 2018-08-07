@@ -7,7 +7,7 @@ namespace Voedingsstoffen.DomainModel
 {
     public class VoedingsstoffenContext : IDisposable
     {
-        private LiteDatabase db;
+        private LiteDatabase _database;
 
         public LiteCollection<Product> Products { get; set; }
         public LiteCollection<DayEntry> DayEntrys { get; set; }
@@ -16,16 +16,40 @@ namespace Voedingsstoffen.DomainModel
         
         public VoedingsstoffenContext()
         {
-            bool insertDefaults = !File.Exists("Voedingstoffen.db");
-            db = new LiteDatabase("Voedingstoffen.db");
-            Products = db.GetCollection<Product>("Products");
-            DayEntrys = db.GetCollection<DayEntry>("DayEntries");
-            Results = db.GetCollection<Result>("Results");
-            SavedProducts = db.GetCollection<SavedProduct>("SavedProducts");
-            if (insertDefaults)
+            bool databaseExisit = !File.Exists("Voedingstoffen.database");
+            CreateDatabase();
+            Products = _database.GetCollection<Product>("Products");
+            DayEntrys = _database.GetCollection<DayEntry>("DayEntries");
+            Results = _database.GetCollection<Result>("Results");
+            SavedProducts = _database.GetCollection<SavedProduct>("SavedProducts");
+            if (databaseExisit)
             {
-                Products.InsertBulk(DataLoader.Loader("VoedingsTabelV2.csv"));
+                InsertDefaults();
             }
+        }
+
+        private void InsertDefaults()
+        {
+            Products.InsertBulk(DataLoader.Loader("VoedingsTabelV2.csv"));
+        }
+
+        private void DeleteDatabase()
+        {
+            File.Delete("Voedingstoffen.database");
+
+        }
+
+        private void CreateDatabase()
+        {
+            _database = new LiteDatabase("Voedingstoffen.database");
+
+        }
+
+        public  void ResetDatabase()
+        {
+            DeleteDatabase();
+            CreateDatabase();
+            InsertDefaults();
         }
 
         public void Dispose()
@@ -35,10 +59,7 @@ namespace Voedingsstoffen.DomainModel
 
         protected virtual void Dispose(bool dis)
         {
-            if (db != null)
-            {
-                db.Dispose();
-            }
+            _database?.Dispose();
             if (dis)
             {
                 GC.SuppressFinalize(this);

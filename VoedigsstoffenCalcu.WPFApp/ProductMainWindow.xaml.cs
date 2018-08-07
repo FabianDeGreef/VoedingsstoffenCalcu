@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Voedingsstoffen.DomainModel;
 using VoedingsstoffenCalcu.DomainClasses;
 using VoedingsstoffenCalcu.Repository;
 
@@ -36,12 +37,22 @@ namespace VoedigsstoffenCalcu.WPFApp
             MenuItemProductAanpassen.Click += MenuItemProductAanpassen_Click;
             VoedingsstoffenListView.SelectionChanged += VoedingsstoffenListView_SelectionChanged;
             VoedingsstoffenListView.MouseDoubleClick += VoedingsstoffenListView_MouseDoubleClick;
+            MenuItemResetDatabase.Click += MenuItemResetDatabase_Click;
 
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string path = (System.IO.Path.GetDirectoryName(executable));
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
         }
 
+        private void MenuItemResetDatabase_Click(object sender, RoutedEventArgs e)
+        {
+            VoedingsstoffenContext v  = new VoedingsstoffenContext();
+            v.ResetDatabase();
+            ProductMessageWindow message = new ProductMessageWindow("Database opnieuw aangemaakt");
+            message.ShowDialog();
+            SearchOnName();
+
+        }
 
         private void MenuItemProductAanpassen_Click(object sender, RoutedEventArgs e)
         {

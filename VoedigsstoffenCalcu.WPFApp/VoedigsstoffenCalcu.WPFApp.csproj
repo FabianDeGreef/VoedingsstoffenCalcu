@@ -25,7 +25,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>3</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationVersion>0.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -168,6 +168,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Voedingsstoffen.DomainModel\Voedingsstoffen.DomainModel.csproj">
+      <Project>{7506F756-02C4-4FA6-9B5E-40C63A042743}</Project>
+      <Name>Voedingsstoffen.DomainModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VoedingsstoffenCalcu.DomainClasses\VoedingsstoffenCalcu.DomainClasses.csproj">
       <Project>{D618D7F4-2FD4-4C19-9CD1-A76793BE2317}</Project>
       <Name>VoedingsstoffenCalcu.DomainClasses</Name>

@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -42,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calculator.cs" />
+    <Compile Include="Converters\ConverterEnergie.cs" />
+    <Compile Include="Converters\ConverterWeight.cs" />
     <Compile Include="DataLoader.cs" />
     <Compile Include="DayEntry.cs" />
     <Compile Include="Product.cs" />

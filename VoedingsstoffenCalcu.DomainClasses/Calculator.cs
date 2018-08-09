@@ -8,26 +8,27 @@ namespace VoedingsstoffenCalcu.DomainClasses
 {
     public class Calculator
     {
-        public static SavedProduct Calculate(Product product, decimal value)
+        public static SavedProduct Calculate(Product product, decimal wight)
         {
             var productEdit = product;
             SavedProduct savedProduct = new SavedProduct()
             {
                 OrginalProductId = product.ProductId,
                 Naam =  product.Naam,
-                Kilocalorieën = (productEdit.Kilocalorieën / 100) * value,
-                Kilojoules = (productEdit.Kilojoules / 100) * value,
-                Water = (productEdit.Water / 100) * value,
-                Eiwit = (productEdit.Eiwit / 100) * value,
-                Koolhydraten = (productEdit.Koolhydraten / 100) * value,
-                Suikers = (productEdit.Suikers / 100) * value,
-                Vet = (productEdit.Vet / 100) * value,
-                VerzadigdVet = (productEdit.VerzadigdVet / 100) * value,
-                EnkelvoudigOnverzadigdVet = (productEdit.EnkelvoudigOnverzadigdVet / 100) * value,
-                MeervoudigOnverzadigdeVetzuren = (productEdit.MeervoudigOnverzadigdeVetzuren / 100) * value,
-                Cholesterol = (productEdit.Cholesterol / 100) * value,
-                Vezels = (productEdit.Vezels / 100) * value
-        };
+                Kilocalorieën = (productEdit.Kilocalorieën / 100) * wight,
+                Kilojoules = (productEdit.Kilojoules / 100) * wight,
+                Water = (productEdit.Water / 100) * wight,
+                Eiwit = (productEdit.Eiwit / 100) * wight,
+                Koolhydraten = (productEdit.Koolhydraten / 100) * wight,
+                Suikers = (productEdit.Suikers / 100) * wight,
+                Vet = (productEdit.Vet / 100) * wight,
+                VerzadigdVet = (productEdit.VerzadigdVet / 100) * wight,
+                EnkelvoudigOnverzadigdVet = (productEdit.EnkelvoudigOnverzadigdVet / 100) * wight,
+                MeervoudigOnverzadigdeVetzuren = (productEdit.MeervoudigOnverzadigdeVetzuren / 100) * wight,
+                Cholesterol = (productEdit.Cholesterol / 100) * wight,
+                Vezels = (productEdit.Vezels / 100) * wight,
+                Gewicht = wight
+            };
             return savedProduct;
         }
 

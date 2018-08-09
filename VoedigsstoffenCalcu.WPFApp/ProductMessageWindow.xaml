@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         mc:Ignorable="d"
-        Title="ProductMessageWindow"  Height="145" Width="480">
+        Title="Berichtencentrum"  Height="145" Width="480">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Style.Resources>
@@ -51,7 +51,7 @@
         </StackPanel>
 
         <StackPanel Background="LightSkyBlue" Grid.Row="1" Orientation="Horizontal">
-            <Button x:Name="ButtonOk" Margin="15,5,5,5" Content="Oke" Width="100" Height="30" Style="{StaticResource RoundButtonTemplate}" FontWeight="Bold" FontSize="13"></Button>
+            <Button x:Name="ButtonOk" IsDefault="True" Margin="15,5,5,5" Content="Oke" Width="100" Height="30" Style="{StaticResource RoundButtonTemplate}" FontWeight="Bold" FontSize="13"></Button>
         </StackPanel>
     </Grid>
 </Window>

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,6 +15,7 @@ namespace VoedigsstoffenCalcu.WPFApp
     {
         private List<SavedProduct> _calculateProducts;
         private ProductMessageWindow _message;
+        private decimal _weight;
 
         public ProductMainWindow()
         {
@@ -33,6 +35,12 @@ namespace VoedigsstoffenCalcu.WPFApp
             MenuItemInfo.Click += MenuItemInfo_Click;
             TextBoxEnter.PreviewTextInput += TextBoxEnter_PreviewTextInput;
             TextBoxSearch.PreviewTextInput += TextBoxSearch_PreviewTextInput;
+            ButtonSluit.Click += ButtonSluit_Click;
+        }
+
+        private void ButtonSluit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void DisplayMessage(string message)
@@ -80,9 +88,13 @@ namespace VoedigsstoffenCalcu.WPFApp
         private void MenuItemProductAanpassen_Click(object sender, RoutedEventArgs e)
         {
             var selectedProduct = (Product)VoedingsstoffenListView.SelectedItem;
-            var aanpassenProduct = new ProductChangeWindow(selectedProduct);
-            aanpassenProduct.Show();
-            aanpassenProduct.Closed += AanpassenProduct_Closed;
+            if (!Application.Current.Windows.OfType<ProductChangeWindow>().Any())
+            {
+                var aanpassenProduct = new ProductChangeWindow(selectedProduct);
+                aanpassenProduct.Show();
+                aanpassenProduct.Closed += AanpassenProduct_Closed;
+
+            }
         }
 
         private void DeleteProduct()
@@ -107,21 +119,30 @@ namespace VoedigsstoffenCalcu.WPFApp
 
         private void MenuItemNieuwProduct_Click(object sender, RoutedEventArgs e)
         {
-            var productToevoegenWindow = new ProductAddWindow();
-            productToevoegenWindow.Show();
+            if (!Application.Current.Windows.OfType<ProductAddWindow>().Any())
+            {
+                var productToevoegenWindow = new ProductAddWindow();
+                productToevoegenWindow.Show();
+            }
         }
 
         private void ButtonDagTotaal_Click(object sender, RoutedEventArgs e)
         {
-            var dagTotaalWindow = new ProductDayEntryWindow(_calculateProducts);
-            dagTotaalWindow.Show();
-            dagTotaalWindow.Closed += DagTotaalWindow_Closed;
+            if (!Application.Current.Windows.OfType<ProductDayEntryWindow>().Any())
+            {
+                var dagTotaalWindow = new ProductDayEntryWindow(_calculateProducts);
+                dagTotaalWindow.Show();
+                dagTotaalWindow.Closed += DagTotaalWindow_Closed;
+            }
         }
 
         private void VoedingsstoffenListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var detailProductWindow = new ProductDetailWindow((Product)VoedingsstoffenListView.SelectedItem);
-            detailProductWindow.Show();
+            if (!Application.Current.Windows.OfType<ProductDetailWindow>().Any())
+            {
+                var detailProductWindow = new ProductDetailWindow((Product) VoedingsstoffenListView.SelectedItem);
+                detailProductWindow.Show();
+            }
         }
 
         private void VoedingsstoffenListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -149,10 +170,10 @@ namespace VoedigsstoffenCalcu.WPFApp
                 try
                 {
                     ResetDataContextCalcu();
-                    var value = Convert.ToDecimal(TextBoxEnter.Text);
+                    _weight = Convert.ToDecimal(TextBoxEnter.Text);
                     if (VoedingsstoffenListView.SelectedItem != null)
                     {
-                        SavedProduct calculateProduct = Calculator.Calculate((Product)VoedingsstoffenListView.SelectedItem, value);
+                        SavedProduct calculateProduct = Calculator.Calculate((Product)VoedingsstoffenListView.SelectedItem, _weight);
                         _calculateProducts.Add(calculateProduct);
                         ListViewCalcu.DataContext = _calculateProducts;
                         ResetTextboxes();
@@ -174,23 +195,15 @@ namespace VoedigsstoffenCalcu.WPFApp
 
         private void SearchOnName()
         {
-            try
+            if (!TextBoxSearch.Text.Equals(""))
             {
-                if (!TextBoxSearch.Text.Equals(""))
+                string search = TextBoxSearch.Text;
+                var products = Repository.SearchProductContainsCharacters(search);
+                if (products.Count != 0)
                 {
-                    string search = TextBoxSearch.Text;
-                    var products = Repository.SearchProductContainsCharacters(search);
-                    if (products.Count != 0)
-                    {
-                        VoedingsstoffenListView.DataContext = products;
-                    }
+                    VoedingsstoffenListView.DataContext = products;
                 }
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-
         }
 
         private void ListViewCalcu_OnPreviewKeyDown(object sender, KeyEventArgs e)

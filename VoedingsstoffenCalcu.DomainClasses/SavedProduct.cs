@@ -39,5 +39,8 @@ namespace VoedingsstoffenCalcu.DomainClasses
         public decimal Cholesterol { get; set; }
 
         public decimal Vezels { get; set; }
+
+        public decimal Gewicht { get; set; }
+
     }
 }

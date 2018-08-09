@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:converters="clr-namespace:VoedingsstoffenCalcu.DomainClasses.Converters;assembly=VoedingsstoffenCalcu.DomainClasses"
         mc:Ignorable="d"
-        Title="ProductDayEntryWindow" Height="740" Width="660">
+        Title="Overzicht Centrum" Height="750" Width="710" SizeToContent="WidthAndHeight">
     <Window.Resources>
+        <converters:ConverterWeight x:Key="ConverterWeight"  ></converters:ConverterWeight>
+        <converters:ConverterEnergie x:Key="ConverterEnergie"  ></converters:ConverterEnergie>
+
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
@@ -246,8 +250,9 @@
                                    Foreground="#3A3A3A" 
                                    Margin="10,3,10,3" 
                                    Text="{TemplateBinding Content}"
-                                   FontSize="15"
-                                   Width="40"
+                                   FontSize="18"
+                                   FontWeight="DemiBold"
+                                   Width="50"
                                    Height="30"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"></TextBlock>
@@ -324,15 +329,15 @@
         <StackPanel Margin="10,5,5,5"  VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
             <Label Content="Stap 1 Selecteer de datum"></Label>
             <StackPanel Orientation="Horizontal">
-            <Calendar Margin="20,5,5,5" x:Name="CalendarDatum" CalendarDayButtonStyle="{StaticResource ResourceKey=styleDatePickerCalendarDayButton}" CalendarItemStyle="{StaticResource ResourceKey=styleDatePickerCalendarItem}" CalendarButtonStyle="{StaticResource ResourceKey=styleDatePickerCalendarButton}"/>
-                <Button x:Name="ButtonRemoveDayEntry" FontWeight="Bold" FontSize="13"  Margin="10,5,5,5" Style="{StaticResource RoundButtonTemplate}"  Height="35" Width="155"  Content="Verwijder dag overzicht"></Button>
+            <Calendar  x:Name="CalendarDatum" CalendarDayButtonStyle="{StaticResource ResourceKey=styleDatePickerCalendarDayButton}" CalendarItemStyle="{StaticResource ResourceKey=styleDatePickerCalendarItem}" CalendarButtonStyle="{StaticResource ResourceKey=styleDatePickerCalendarButton}"/>
+                <Button x:Name="ButtonRemoveDayEntry" FontWeight="Bold" FontSize="13"  Margin="10,5,5,5" Style="{StaticResource RoundButtonTemplate}"  Height="100" Width="170"  Content="Verwijder dag overzicht"></Button>
                 </StackPanel>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Margin="10,5,5,5" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
             <Label Content="Stap 2 Voeg nieuwe gevens toe"></Label>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="10,5,5,5" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="2">
+        <StackPanel Orientation="Vertical" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="2">
             <ListView  Name="ListViewAdding"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" BorderThickness="1" BorderBrush="Black" Width="auto" Height="200" ItemsSource="{Binding}">
                 <ListView.View>
                     <GridView>
@@ -344,12 +349,12 @@
                                     </Style>
                                 </Style.Resources>
                                 <Setter Property="TextElement.FontSize"
-                                        Value="13" />
+                                        Value="12" />
                                 <Setter Property="TextElement.FontWeight"
                                         Value="DemiBold" />
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
-                        <GridViewColumn Header="Naam" Width="200">
+                        <GridViewColumn Header="Naam Product" Width="155">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Naam}" FontWeight="Bold" FontSize="13" TextAlignment="Left"/>
@@ -361,13 +366,12 @@
             </ListView>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" Margin="10,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3">
-            <Button x:Name="ButtonUpdate" FontWeight="Bold" FontSize="13"  Margin="10,5,5,5" Style="{StaticResource RoundButtonTemplate}"  Height="25" Width="120"  Content="Update gegevens"></Button>
-            <Button x:Name="ButtonExit" FontWeight="Bold" FontSize="13"  Margin="10,5,5,5" Style="{StaticResource RoundButtonTemplate}"  Height="25" Width="120"  Content="Sluiten"></Button>
-
+        <StackPanel Orientation="Vertical" Margin="0,15,15,15" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3">
+            <Button x:Name="ButtonUpdate" FontWeight="Bold" FontSize="13"  Margin="10,5,5,5" Style="{StaticResource RoundButtonTemplate}"  Height="30" Width="130"  Content="Update gegevens"></Button>
+            <Button x:Name="ButtonExit" FontWeight="Bold" FontSize="13"  Margin="10,5,5,5" Style="{StaticResource RoundButtonTemplate}"  Height="30" Width="130"  Content="Sluiten"></Button>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" Grid.Row="2" Margin="10,5,5,5"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Column="1">
+        <StackPanel Orientation="Vertical" Grid.Row="2" Margin="10"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Column="1">
             <ListView Name="ListViewDagOverzicht" PreviewKeyDown="ListViewDagOverzicht_OnPreviewKeyDown" PreviewMouseDoubleClick="ListViewDagOverzicht_OnPreviewMouseDoubleClick"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"  BorderThickness="1" BorderBrush="Black" Width="auto" Height="200" ItemsSource="{Binding}">
                 <ListView.View>
                     <GridView>
@@ -379,7 +383,7 @@
                                     </Style>
                                 </Style.Resources>
                                 <Setter Property="TextElement.FontSize"
-                                        Value="13" />
+                                        Value="12" />
                                 <Setter Property="TextElement.FontWeight"
                                         Value="DemiBold" />
                             </Style>
@@ -391,24 +395,31 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Naam" Width="180">
+                        <GridViewColumn Header="Naam Product" Width="155">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Naam}" FontWeight="Bold" FontSize="13" TextAlignment="Left"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Kh" Width="60">
+                        <GridViewColumn Header="Gewicht" Width="65">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Koolhydraten, StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Right"/>
+                                    <TextBlock Text="{Binding Gewicht,Converter={StaticResource ConverterWeight}, StringFormat={}{0:0}}" FontWeight="Bold" FontSize="13" TextAlignment="Right"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Kcal" Width="60">
+                        <GridViewColumn Header="Koolhydraten" Width="90">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Kilocalorieën, StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Right"/>
+                                    <TextBlock Text="{Binding Koolhydraten,Converter={StaticResource ConverterWeight}, StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Right"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Kilocalorieën" Width="90">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Kilocalorieën,Converter={StaticResource ConverterEnergie}, StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Right"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -417,8 +428,8 @@
             </ListView>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" Grid.Row="3" Margin="10,5,5,5"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Column="1">
-            <ListView Name="ListViewResult"  BorderThickness="1" BorderBrush="Black" Width="auto" Height="80" ItemsSource="{Binding}">
+        <StackPanel Orientation="Vertical" Grid.Row="3" Margin="10"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Column="1">
+            <ListView Name="ListViewResult"  BorderThickness="1" BorderBrush="Black" Width="auto" Height="100" ItemsSource="{Binding}">
                 <ListView.View>
                     <GridView>
                         <GridView.ColumnHeaderContainerStyle>
@@ -429,22 +440,22 @@
                                     </Style>
                                 </Style.Resources>
                                 <Setter Property="TextElement.FontSize"
-                                        Value="13" />
+                                        Value="12" />
                                 <Setter Property="TextElement.FontWeight"
                                         Value="DemiBold" />
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
-                        <GridViewColumn Header="Kh Totaal" Width="100">
+                        <GridViewColumn Header="Koolhydraten Totaal" Width="150">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Koolhydraten,  StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Center"/>
+                                    <TextBlock Text="{Binding Koolhydraten,Converter={StaticResource ConverterWeight},StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Center"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Kcal Totaal" Width="100">
+                        <GridViewColumn Header="Kilocalorieën Totaal" Width="150">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Kilocalorieën, StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Center"/>
+                                    <TextBlock Text="{Binding Kilocalorieën, Converter={StaticResource ConverterEnergie},StringFormat={}{0:0.0}}" FontWeight="Bold" FontSize="13" TextAlignment="Center"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -454,3 +465,4 @@
         </StackPanel>
     </Grid>
 </Window>
+

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         mc:Ignorable="d"
-        Title="Berichtencentrum" Height="145" Width="480">
+        Title="Aanmaken gegevens" Height="145" Width="480">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Style.Resources>
@@ -52,7 +52,7 @@
 
         <StackPanel Background="LightSkyBlue" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Horizontal">
          <Button x:Name="ButtonYes" Margin="15,5,5,5" Content="Ja" Width="100" Height="30" Style="{StaticResource RoundButtonTemplate}" FontWeight="Bold" FontSize="13"></Button>
-            <Button x:Name="ButtonNo" Margin="15,5,5,5" Content="Nee" Width="100" Height="30" Style="{StaticResource RoundButtonTemplate}" FontWeight="Bold" FontSize="13"></Button>
+            <Button x:Name="ButtonNo" Margin="15,5,5,5" IsDefault="True" Content="Nee" Width="100" Height="30" Style="{StaticResource RoundButtonTemplate}" FontWeight="Bold" FontSize="13"></Button>
         </StackPanel>
     </Grid>
 </Window>

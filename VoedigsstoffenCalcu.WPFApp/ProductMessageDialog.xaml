@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         mc:Ignorable="d"
-        Title="Aanmaken gegevens" Height="145" Width="480">
+        Title="Aanmaken gegevens" Height="145" ResizeMode="NoResize" Width="480">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Style.Resources>

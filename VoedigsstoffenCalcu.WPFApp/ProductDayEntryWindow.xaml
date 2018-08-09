@@ -7,7 +7,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:converters="clr-namespace:VoedingsstoffenCalcu.DomainClasses.Converters;assembly=VoedingsstoffenCalcu.DomainClasses"
         mc:Ignorable="d"
-        Title="Overzicht Centrum" Height="750" Width="710" SizeToContent="WidthAndHeight">
+        Title="Overzicht Centrum" Height="750" Width="710" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
     <Window.Resources>
         <converters:ConverterWeight x:Key="ConverterWeight"  ></converters:ConverterWeight>
         <converters:ConverterEnergie x:Key="ConverterEnergie"  ></converters:ConverterEnergie>

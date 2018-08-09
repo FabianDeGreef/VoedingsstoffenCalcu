@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         mc:Ignorable="d"
-        Title="Product Aanpassen" Height="485" Width="465">
+        Title="Product Aanpassen" ResizeMode="NoResize" Height="485" Width="460">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Style.Resources>
@@ -51,7 +51,7 @@
             <RowDefinition Height="10*" />
             <RowDefinition Height="10*" />
             <RowDefinition Height="10*" />
-            <RowDefinition Height="10*" />
+            <RowDefinition Height="11*" />
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Vertical" Margin="2" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">

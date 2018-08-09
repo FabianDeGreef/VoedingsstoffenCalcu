@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         mc:Ignorable="d"
-        Title="Nieuw Product Toevoegen" Height="485" Width="560">
+        Title="Nieuw Product Toevoegen" ResizeMode="NoResize" Height="485" Width="460">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Style.Resources>
@@ -51,11 +51,11 @@
             <RowDefinition Height="10*" />
             <RowDefinition Height="10*" />
             <RowDefinition Height="10*" />
-            <RowDefinition Height="10*" />
+            <RowDefinition Height="11*" />
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Vertical" Margin="2" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
-            <Label Content="Stap 1 voer de gepaste waardes in voor 100g"></Label>
+            <Label Content="Stap 1 voer de waardes in voor het nieuwe product (100 g)"></Label>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Margin="10,0,0,0" Grid.Column="0" Grid.Row="1">
@@ -119,13 +119,13 @@
         </StackPanel>
 
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Column="1" Grid.Row="6" Orientation="Vertical">
-            <Label  Content="Stap 2 Voer de naam in"></Label>
+            <Label  Content="Stap 2 Voer product naam in"></Label>
             <TextBox VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="DemiBold" FontSize="13" HorizontalAlignment="Left" Margin="2"  Text="{Binding Naam, Mode=TwoWay}" Width="120" ></TextBox>
         </StackPanel>
 
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Column="1" Grid.Row="7" Orientation="Vertical">
-            <Label   Content="Stap 3 voeg het nieuwe product toe aan de database"></Label>
-            <Button x:Name="ButtonVoegToe" FontWeight="Bold" FontSize="13" Style="{StaticResource RoundButtonTemplate}" Margin="2" Width="120" Height="25" HorizontalAlignment="Left" Content="Voeg toe"></Button>
+            <Label   Content="Stap 3 voeg  product toe"></Label>
+            <Button x:Name="ButtonVoegToe" FontWeight="Bold" FontSize="13" Style="{StaticResource RoundButtonTemplate}" Margin="2" Width="120" Height="25" HorizontalAlignment="Left" Content="Toevoegen"></Button>
         </StackPanel>
     </Grid>
 </Window>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         mc:Ignorable="d"
-        Title="Berichtencentrum"  Height="145" Width="480">
+        Title="Berichtencentrum" ResizeMode="NoResize"  Height="145" Width="480">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Style.Resources>

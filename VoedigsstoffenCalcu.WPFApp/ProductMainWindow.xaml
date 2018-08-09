@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         xmlns:converters="clr-namespace:VoedingsstoffenCalcu.DomainClasses.Converters;assembly=VoedingsstoffenCalcu.DomainClasses"
         mc:Ignorable="d"
-        Title="Voedingsstoffen Calculator" Height="530" Width="855" SizeToContent="WidthAndHeight" >
+        Title="Voedingsstoffen Calculator" Height="530" Width="855" ResizeMode="NoResize" SizeToContent="WidthAndHeight" >
     <Window.Resources>
         <converters:ConverterWeight x:Key="ConverterWeight"  ></converters:ConverterWeight>
         <converters:ConverterEnergie x:Key="ConverterEnergie"  ></converters:ConverterEnergie>
@@ -64,15 +64,15 @@
         </Menu>
         <Grid Background="LightSkyBlue">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="18*" />
-                <ColumnDefinition Width="20*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
 
@@ -194,7 +194,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <Label Margin="10,10,10,5" HorizontalAlignment="Center" Content="Producten zijn standaard per 100g" VerticalAlignment="Top"></Label>
+                <Label Margin="10,5,5,5" HorizontalAlignment="Center" Content="Producten zijn standaard per 100g" VerticalAlignment="Top"></Label>
             </StackPanel>
         </Grid>
     </DockPanel>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         mc:Ignorable="d"
-        Title="Detail per geselecteerde product" Height="480" Width="450">
+        Title="Detail per geselecteerde product" Height="485" ResizeMode="NoResize" Width="460">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
 
@@ -55,7 +55,7 @@
             <RowDefinition Height="10*" />
             <RowDefinition Height="10*" />
             <RowDefinition Height="10*" />
-            <RowDefinition Height="10*" />
+            <RowDefinition Height="11*" />
         </Grid.RowDefinitions>
 
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"  Grid.Column="0" Grid.Row="1" Orientation="Vertical">
@@ -123,8 +123,8 @@
             <TextBox VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsEnabled="False" FontWeight="DemiBold" FontSize="13" HorizontalAlignment="Left" Margin="2" Text="{Binding Kilocalorieën, Mode=OneWay }" Width="120" ></TextBox>
         </StackPanel>
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Column="1" Grid.Row="7" Orientation="Vertical">
-            <Label   Content="Stap 1 Sluit het scherm"></Label>
-            <Button x:Name="ButtonSluit" FontWeight="Bold" FontSize="13" Style="{StaticResource RoundButtonTemplate}" Margin="2" Width="120" Height="25" HorizontalAlignment="Left" Content="Sluit"></Button>
+            <Label   Content="Sluit het scherm"></Label>
+            <Button x:Name="ButtonSluit" FontWeight="Bold" FontSize="13" Style="{StaticResource RoundButtonTemplate}" Margin="2" Width="120" Height="25" HorizontalAlignment="Left" Content="Sluiten"></Button>
         </StackPanel>
     </Grid>
 </Window>

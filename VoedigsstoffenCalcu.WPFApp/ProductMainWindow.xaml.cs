@@ -1,18 +1,9 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Voedingsstoffen.DomainModel;
 using VoedingsstoffenCalcu.DomainClasses;
 using VoedingsstoffenCalcu.Repository;
@@ -22,34 +13,66 @@ namespace VoedigsstoffenCalcu.WPFApp
     public partial class ProductMainWindow : Window
     {
         private List<SavedProduct> _calculateProducts;
+        private ProductMessageWindow _message;
+
         public ProductMainWindow()
         {
-            InitializeComponent();
-            
+            InitializeComponent();           
             _calculateProducts = new List<SavedProduct>();
             ButtonSearch.Click += ButtonSearch_Click;
             ButtonEnter.Click += ButtonEnter_Click;
             ButtonReset.Click += ButtonReset_Click;
             ButtonDagTotaal.Click += ButtonDagTotaal_Click;
+            VoedingsstoffenListView.SelectionChanged += VoedingsstoffenListView_SelectionChanged;
+            VoedingsstoffenListView.MouseDoubleClick += VoedingsstoffenListView_MouseDoubleClick;
+            MenuItemResetDatabase.Click += MenuItemResetDatabase_Click;
             MenuItemNieuwProduct.Click += MenuItemNieuwProduct_Click;
             MenuItemExit.Click += MenuItemExit_Click;
             MenuItemProductVerwijderen.Click += MenuItemProductVerwijderen_Click;
             MenuItemProductAanpassen.Click += MenuItemProductAanpassen_Click;
-            VoedingsstoffenListView.SelectionChanged += VoedingsstoffenListView_SelectionChanged;
-            VoedingsstoffenListView.MouseDoubleClick += VoedingsstoffenListView_MouseDoubleClick;
-            MenuItemResetDatabase.Click += MenuItemResetDatabase_Click;
+            MenuItemInfo.Click += MenuItemInfo_Click;
+            TextBoxEnter.PreviewTextInput += TextBoxEnter_PreviewTextInput;
+            TextBoxSearch.PreviewTextInput += TextBoxSearch_PreviewTextInput;
+        }
 
-            string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string path = (System.IO.Path.GetDirectoryName(executable));
-            AppDomain.CurrentDomain.SetData("DataDirectory", path);
+        private void DisplayMessage(string message)
+        {
+            _message = new ProductMessageWindow(message);
+            _message.ShowDialog();
+        }
+
+        private void TextBoxSearch_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            foreach (char ch in e.Text)
+            {
+                if (!(Char.IsLetter(ch)))
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void TextBoxEnter_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            foreach (char ch in e.Text)
+            {
+                if (!(Char.IsDigit(ch) || ch.Equals(',')))
+                {
+                    e.Handled = true;
+                }
+            }              
+        }
+
+        private void MenuItemInfo_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayMessage("© Copyright 2018. Alle rechten voorbehouden");
         }
 
         private void MenuItemResetDatabase_Click(object sender, RoutedEventArgs e)
         {
             VoedingsstoffenContext v  = new VoedingsstoffenContext();
             v.ResetDatabase();
-            ProductMessageWindow message = new ProductMessageWindow("Database opnieuw aangemaakt");
-            message.ShowDialog();
+            DisplayMessage("Database opnieuw aangemaakt");
             SearchOnName();
 
         }
@@ -66,13 +89,12 @@ namespace VoedigsstoffenCalcu.WPFApp
         {
             if (Repository.DeleteExistingProduct(((Product)VoedingsstoffenListView.SelectedItem).ProductId) != 0)
             {
-                ProductMessageWindow message = new ProductMessageWindow("Het product is verwijderd");
-                message.ShowDialog();
+                DisplayMessage("Het product is verwijderd");
+                ResetWeightTextBox();
             }
             else
             {
-                ProductMessageWindow message = new ProductMessageWindow("Het product is niet verwijderd");
-                message.ShowDialog();
+                DisplayMessage("Het product is niet verwijderd");
             }
             ResetDataContextVoedingsstoffen();
             SearchOnName();
@@ -98,8 +120,7 @@ namespace VoedigsstoffenCalcu.WPFApp
 
         private void VoedingsstoffenListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var selectedProduct = (Product)VoedingsstoffenListView.SelectedItem;
-            var detailProductWindow = new ProductDetailWindow(selectedProduct);
+            var detailProductWindow = new ProductDetailWindow((Product)VoedingsstoffenListView.SelectedItem);
             detailProductWindow.Show();
         }
 
@@ -121,7 +142,6 @@ namespace VoedigsstoffenCalcu.WPFApp
             }
         }
 
-
         private void EnterAmount()
         {
             if (!TextBoxEnter.Text.Equals(""))
@@ -141,11 +161,15 @@ namespace VoedigsstoffenCalcu.WPFApp
                 }
                 catch (FormatException)
                 {
-                    ProductMessageWindow message = new ProductMessageWindow("Voer een decimaal of geheel getal in");
-                    message.ShowDialog();
-                    TextBoxEnter.Text = "";
+                    DisplayMessage("Voer een decimaal of geheel getal in");
+                    ResetWeightTextBox();
                 }
             }
+        }
+
+        private void ResetWeightTextBox()
+        {
+            TextBoxEnter.Text = "";
         }
 
         private void SearchOnName()
@@ -243,7 +267,7 @@ namespace VoedigsstoffenCalcu.WPFApp
         private void ResetTextboxes()
         {
             TextBoxSearch.Text = "";
-            TextBoxEnter.Text = "";
+            ResetWeightTextBox();
         }
 
         private void ResetDataContextCalcu()

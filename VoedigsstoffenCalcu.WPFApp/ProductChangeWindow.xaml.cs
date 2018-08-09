@@ -7,6 +7,7 @@ namespace VoedigsstoffenCalcu.WPFApp
     public partial class ProductChangeWindow : Window
     {
         private Product _currentProduct;
+        private ProductMessageWindow _message;
         public ProductChangeWindow(Product product)
         {
             InitializeComponent();
@@ -16,19 +17,23 @@ namespace VoedigsstoffenCalcu.WPFApp
             ButtonUpdate.Click += ButtonUpdate_Click;
         }
 
+        private void DisplayMessage(string message)
+        {
+            _message = new ProductMessageWindow(message);
+            _message.ShowDialog();
+        }
+
         private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
         {
             var product = _currentProduct;
             if (Repository.UpdateExistingProduct(_currentProduct) != 0)
             {
-                ProductMessageWindow message = new ProductMessageWindow("Het product is gewijzigd");
-                message.ShowDialog();
+                DisplayMessage("Het product is gewijzigd");
                 this.Close();
             }
             else
             {
-                ProductMessageWindow message = new ProductMessageWindow("Het product is niet gewijzigd");
-                message.ShowDialog();
+                DisplayMessage("Het product is niet gewijzigd");
             }
         }
 

@@ -11,38 +11,8 @@ namespace VoedingsstoffenCalcu.Repository
         public static List<Product> SearchProductContainsCharacters(string character)
         {
             using (var context = new VoedingsstoffenContext())
-            {
-                try
-                {
-                    return context.Products.Find(s => s.Naam.ToLower().Contains(character.ToLower())).ToList();
-                }
-                catch (ArgumentNullException e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-            }
-        }
-
-        public static List<SavedProduct> GetSavedProductByIds(List<SavedProduct> productIds)
-        {
-            List<SavedProduct> products = new List<SavedProduct>();
-
-            using (var context = new VoedingsstoffenContext())
-            {
-                try
-                {
-                    foreach (var id in productIds)
-                    {
-                        products.Add(context.SavedProducts.FindOne(s => s.SavedProductId == id.SavedProductId));
-                    }
-                    return products;
-                }
-                catch (ArgumentNullException e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+            {   
+                return context.Products.Find(s => s.Naam.ToLower().Contains(character.ToLower())).ToList();
             }
         }
 
@@ -50,22 +20,14 @@ namespace VoedingsstoffenCalcu.Repository
         {
             using (var context = new VoedingsstoffenContext())
             {
-                try
+                foreach (var x in context.DayEntrys.FindAll())
                 {
-                    foreach (var x in context.DayEntrys.FindAll())
+                    if (x.CurentDate.Day == date.Day && x.CurentDate.Month == date.Month && x.CurentDate.Year == date.Year)
                     {
-                        if (x.CurentDate.Day == date.Day && x.CurentDate.Month == date.Month && x.CurentDate.Year == date.Year)
-                        {
-                            return x;
-                        }
+                        return x;
                     }
-                    return null;
                 }
-                catch (ArgumentNullException e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                return null;
             }
         }
 
@@ -73,16 +35,7 @@ namespace VoedingsstoffenCalcu.Repository
         {
             using (var context = new VoedingsstoffenContext())
             {
-                try
-                {
-                    return context.DayEntrys.Insert(dayEntryNew) != null ? 1 : 0;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-
+                return context.DayEntrys.Insert(dayEntryNew) != null ? 1 : 0;
             }
         }
 
@@ -90,27 +43,15 @@ namespace VoedingsstoffenCalcu.Repository
         {
             using (var context = new VoedingsstoffenContext())
             {
-                try
+             
+                DayEntry dayEntry = context.DayEntrys.Include("Result").Include("SavedProducts").FindOne(w => w.DayEntryId == updateDayEntry.DayEntryId);
+                if (dayEntry != null)
                 {
-                    DayEntry dayEntry = context.DayEntrys.Include("Result").Include("SavedProducts").FindOne(w => w.DayEntryId == updateDayEntry.DayEntryId);
-                    if (dayEntry != null)
-                    {
-                        dayEntry.SavedProducts.AddRange(updateDayEntry.SavedProducts);
-                        dayEntry.Result = updateDayEntry.Result;
-                        return context.DayEntrys.Update(dayEntry) ? 1 : 0;
-                    }
-                    return 0;
+                    dayEntry.SavedProducts.AddRange(updateDayEntry.SavedProducts);
+                    dayEntry.Result = updateDayEntry.Result;
+                    return context.DayEntrys.Update(dayEntry) ? 1 : 0;
                 }
-                catch (ArgumentNullException e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                return 0;
             }
         }
 
@@ -118,15 +59,7 @@ namespace VoedingsstoffenCalcu.Repository
         {
             using (var context = new VoedingsstoffenContext())
             {
-                try
-                {
-                    return context.Products.Update(updateProduct) ? 1 : 0;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                return context.Products.Update(updateProduct) ? 1 : 0;
             }
         }
 
@@ -134,15 +67,7 @@ namespace VoedingsstoffenCalcu.Repository
         {
             using (var context = new VoedingsstoffenContext())
             {
-                try
-                {
-                    return context.Products.Insert(newProduct);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                return context.Products.Insert(newProduct);
             }
         }
 
@@ -150,20 +75,30 @@ namespace VoedingsstoffenCalcu.Repository
         {
             using (var context = new VoedingsstoffenContext())
             {
-                try
+                return context.Products.Delete(w => w.ProductId == id);
+            }
+        }
+
+        public static int DeleteCurrentDayEntry(DayEntry dayEntry)
+        {
+            using (var context = new VoedingsstoffenContext())
+            {
+                return context.DayEntrys.Delete(w => w.DayEntryId == dayEntry.DayEntryId);
+            }
+        }
+
+        public static int DeleteAndRecalculateResultSavedProduct(DayEntry updateDayEntry)
+        {
+            using (var context = new VoedingsstoffenContext())
+            {
+                DayEntry dayEntry = context.DayEntrys.Include("Result").Include("SavedProducts").FindOne(w => w.DayEntryId == updateDayEntry.DayEntryId);
+                if (dayEntry != null)
                 {
-                    return context.Products.Delete(w => w.ProductId == id);
+                    dayEntry.SavedProducts = updateDayEntry.SavedProducts;
+                    dayEntry.Result = updateDayEntry.Result;
+                    return context.DayEntrys.Update(dayEntry) ? 1 : 0;
                 }
-                catch (ArgumentNullException e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                return 0;
             }
         }
     }

@@ -10,6 +10,8 @@ namespace VoedigsstoffenCalcu.WPFApp
 {
     public partial class ProductDayEntryWindow : Window
     {
+        private ProductMessageWindow _message;
+        private ProductMessageDialog _dialog;
         private DateTime _currentDateTime;
         private DayEntry _currentDayEntry;
         private readonly List<SavedProduct> _currentProductList;
@@ -24,7 +26,34 @@ namespace VoedigsstoffenCalcu.WPFApp
             ButtonUpdate.Click += ButtonUpdate_Click;
             CalendarDatum.SelectedDatesChanged += DatePickerDatum_SelectedDatesChanged;
             ButtonExit.Click += ButtonExit_Click;
+            ButtonRemoveDayEntry.Click += ButtonRemoveDayEntry_Click;
             LoadDayEntryFromCurrentDay();
+        }
+
+        private void ButtonRemoveDayEntry_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentDayEntry != null)
+            {
+                if (Repository.DeleteCurrentDayEntry(_currentDayEntry) != 0)
+                {
+                    ResetDataContext();
+                    DisplayMessage("Dag overzicht is verwijderd");
+                }
+                else
+                {
+                    DisplayMessage("Dag overzicht niet verwijderd");
+                }
+            }
+            else
+            {
+                DisplayMessage("Geen dag overzicht gevonden op deze datum");
+            }
+        }
+
+        private void DisplayMessage(string message)
+        {
+            _message = new ProductMessageWindow(message);
+            _message.ShowDialog();
         }
 
         private void ButtonExit_Click(object sender, RoutedEventArgs e)
@@ -66,9 +95,9 @@ namespace VoedigsstoffenCalcu.WPFApp
             }
             else
             {
-                ProductMessageDialog dialog = new ProductMessageDialog();
-                dialog.ShowDialog();
-                if (dialog.DialogResult == true)
+                _dialog = new ProductMessageDialog();
+                _dialog.ShowDialog();
+                if (_dialog.DialogResult == true)
                 {
                     DayEntry defaultDayEntry = new DayEntry()
                     {
@@ -78,57 +107,57 @@ namespace VoedigsstoffenCalcu.WPFApp
                     };
                     if (Repository.AddNewDayEntry(defaultDayEntry) != 0)
                     {
-                        ProductMessageWindow message = new ProductMessageWindow("Nieuw dag overzicht aangemaakt");
-                        message.ShowDialog();
+                        DisplayMessage("Nieuw dag overzicht aangemaakt");
                         LoadDayEntryFromCurrentDay();
                     }
                     else
                     {
-                        ProductMessageWindow message = new ProductMessageWindow("Nieuw dag overzicht niet aangemaakt");
-                        message.ShowDialog();
+                        DisplayMessage("Nieuw dag overzicht niet aangemaakt");
                     }
                 }
                 else
                 {
-                    ProductMessageWindow message = new ProductMessageWindow("Geen dag overzicht aangemaakt");
-                    message.ShowDialog();
-
+                    DisplayMessage("Geen dag overzicht aangemaakt");
                 }
             }
         }
 
         private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
         {
-            List<SavedProduct> savedProducts = new List<SavedProduct>();
-            savedProducts = _currentDayEntry.SavedProducts;
-            savedProducts.AddRange(_currentProductList);
-
-            foreach (var t in savedProducts)
+            if (_currentDayEntry != null)
             {
-                t.DayEntryId = _currentDayEntry.DayEntryId;
-            }
+                var savedProducts = _currentDayEntry.SavedProducts;
+                savedProducts.AddRange(_currentProductList);
 
-            DayEntry dayEntryUpdate = new DayEntry()
-            {
-                DayEntryId = _currentDayEntry.DayEntryId,
-                CurentDate = _currentDayEntry.CurentDate,
-                Result = Calculator.CalculateDayTotal(savedProducts),
-                SavedProducts = _currentProductList
+                foreach (var t in savedProducts)
+                {
+                    t.DayEntryId = _currentDayEntry.DayEntryId;
+                }
 
-            };
-            if (Repository.UpdateExistingDayEntry(dayEntryUpdate) != 0)
-            {
-                ProductMessageWindow message = new ProductMessageWindow("Het dag overzicht is bijgewerkt");
-                message.ShowDialog();
+                DayEntry dayEntryUpdate = new DayEntry()
+                {
+                    DayEntryId = _currentDayEntry.DayEntryId,
+                    CurentDate = _currentDayEntry.CurentDate,
+                    Result = Calculator.CalculateDayTotal(savedProducts),
+                    SavedProducts = _currentProductList
+
+                };
+                if (Repository.UpdateExistingDayEntry(dayEntryUpdate) != 0)
+                {
+                    DisplayMessage("Het dag overzicht is bijgewerkt");
+                }
+                else
+                {
+                    DisplayMessage("Het dag overzicht is niet bijgewerkt");
+                }
+                ButtonUpdate.IsEnabled = false;
+                ListViewAdding.DataContext = null;
+                LoadDayEntryFromCurrentDay();
             }
             else
             {
-                ProductMessageWindow message = new ProductMessageWindow("Het dag overzicht is niet bijgewerkt");
-                message.ShowDialog();
+                DisplayMessage("Er is nog geen dag overzicht aangemaakt");
             }
-            ButtonUpdate.IsEnabled = false;
-            ListViewAdding.DataContext = null;
-            LoadDayEntryFromCurrentDay();
         }
 
         private void ResetDataContext()
@@ -156,6 +185,33 @@ namespace VoedigsstoffenCalcu.WPFApp
             };
             var detailProductWindow = new ProductDetailWindow(product);
             detailProductWindow.Show();
+        }
+
+        private void ListViewDagOverzicht_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                var deleteItem = (SavedProduct)ListViewDagOverzicht.SelectedItem;
+                List<SavedProduct> savedProducts = _currentDayEntry.SavedProducts;
+                savedProducts.Remove(deleteItem);
+
+                DayEntry dayEntryUpdate = new DayEntry()
+                {
+                    DayEntryId = _currentDayEntry.DayEntryId,
+                    CurentDate = _currentDayEntry.CurentDate,
+                    Result = Calculator.CalculateDayTotal(savedProducts),
+                    SavedProducts = savedProducts,
+                };
+                if (Repository.DeleteAndRecalculateResultSavedProduct(dayEntryUpdate) != 0)
+                {
+                    DisplayMessage("Het geselecteerde product is verwijderd en het resultaat is herberekend");
+                }
+                else
+                {
+                    DisplayMessage("Het geselecteerde product en resultaat zijn niet gewijzigd");
+                }
+                LoadDayEntryFromCurrentDay();
+            }
         }
     }
 }

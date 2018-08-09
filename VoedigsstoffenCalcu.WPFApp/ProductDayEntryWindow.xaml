@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="ProductDayEntryWindow" Height="740" Width="600">
+        Title="ProductDayEntryWindow" Height="740" Width="660">
     <Window.Resources>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -323,8 +323,11 @@
 
         <StackPanel Margin="10,5,5,5"  VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
             <Label Content="Stap 1 Selecteer de datum"></Label>
+            <StackPanel Orientation="Horizontal">
             <Calendar Margin="20,5,5,5" x:Name="CalendarDatum" CalendarDayButtonStyle="{StaticResource ResourceKey=styleDatePickerCalendarDayButton}" CalendarItemStyle="{StaticResource ResourceKey=styleDatePickerCalendarItem}" CalendarButtonStyle="{StaticResource ResourceKey=styleDatePickerCalendarButton}"/>
-            </StackPanel>
+                <Button x:Name="ButtonRemoveDayEntry" FontWeight="Bold" FontSize="13"  Margin="10,5,5,5" Style="{StaticResource RoundButtonTemplate}"  Height="35" Width="155"  Content="Verwijder dag overzicht"></Button>
+                </StackPanel>
+        </StackPanel>
 
         <StackPanel Orientation="Vertical" Margin="10,5,5,5" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
             <Label Content="Stap 2 Voeg nieuwe gevens toe"></Label>
@@ -346,7 +349,7 @@
                                         Value="DemiBold" />
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
-                        <GridViewColumn Header="Naam" Width="150">
+                        <GridViewColumn Header="Naam" Width="200">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Naam}" FontWeight="Bold" FontSize="13" TextAlignment="Left"/>
@@ -365,7 +368,7 @@
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Grid.Row="2" Margin="10,5,5,5"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Column="1">
-            <ListView Name="ListViewDagOverzicht" PreviewMouseDoubleClick="ListViewDagOverzicht_OnPreviewMouseDoubleClick"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"  BorderThickness="1" BorderBrush="Black" Width="auto" Height="200" ItemsSource="{Binding}">
+            <ListView Name="ListViewDagOverzicht" PreviewKeyDown="ListViewDagOverzicht_OnPreviewKeyDown" PreviewMouseDoubleClick="ListViewDagOverzicht_OnPreviewMouseDoubleClick"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"  BorderThickness="1" BorderBrush="Black" Width="auto" Height="200" ItemsSource="{Binding}">
                 <ListView.View>
                     <GridView>
                         <GridView.ColumnHeaderContainerStyle>

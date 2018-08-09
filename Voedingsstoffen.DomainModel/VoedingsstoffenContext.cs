@@ -16,7 +16,7 @@ namespace Voedingsstoffen.DomainModel
         
         public VoedingsstoffenContext()
         {
-            bool databaseExisit = !File.Exists("Voedingstoffen.database");
+            bool databaseExisit = !File.Exists("Voedingstoffen.db");
             CreateDatabase();
             Products = _database.GetCollection<Product>("Products");
             DayEntrys = _database.GetCollection<DayEntry>("DayEntries");
@@ -35,13 +35,13 @@ namespace Voedingsstoffen.DomainModel
 
         private void DeleteDatabase()
         {
-            File.Delete("Voedingstoffen.database");
+            File.Delete("Voedingstoffen.db");
 
         }
 
         private void CreateDatabase()
         {
-            _database = new LiteDatabase("Voedingstoffen.database");
+            _database = new LiteDatabase("Voedingstoffen.db");
 
         }
 

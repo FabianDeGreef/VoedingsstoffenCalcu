@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace VoedigsstoffenCalcu.WPFApp
 {
-    /// <summary>
-    /// Interaction logic for ProductMessageWindow.xaml
-    /// </summary>
     public partial class ProductMessageWindow : Window
     {
         public ProductMessageWindow(string message)

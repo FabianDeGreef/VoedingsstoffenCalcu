@@ -7,6 +7,8 @@ namespace VoedigsstoffenCalcu.WPFApp
     public partial class ProductAddWindow : Window
     {
         private  Product _currentProduct;
+        private ProductMessageWindow _message;
+
         public ProductAddWindow()
         {
             InitializeComponent();
@@ -15,26 +17,29 @@ namespace VoedigsstoffenCalcu.WPFApp
             ButtonVoegToe.Click += ButtonVoegToe_Click;
         }
 
+        private void DisplayMessage(string message)
+        {
+            _message = new ProductMessageWindow(message);
+            _message.ShowDialog();
+        }
+
         private void ButtonVoegToe_Click(object sender, RoutedEventArgs e)
         {
             if (!_currentProduct.Naam.Equals(""))
             {
                 if (Repository.AddNewProduct(_currentProduct) != 0)
                 {
-                    ProductMessageWindow message = new ProductMessageWindow("Het product is toegevoegd");
-                    message.ShowDialog();
+                    DisplayMessage("Het product is toegevoegd");
                     ResetData();
                 }
                 else
                 {
-                    ProductMessageWindow message = new ProductMessageWindow("Het product is niet toegevoegd");
-                    message.ShowDialog();
+                    DisplayMessage("Het product is niet toegevoegd");
                 }
             }
             else
             {
-                ProductMessageWindow message = new ProductMessageWindow("Voer een naam in voor het nieuwe product");
-                message.ShowDialog();
+                DisplayMessage("Voer een naam in voor het nieuwe product");
             }
         }
 

@@ -28,7 +28,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public string Naam
         {
-            get { return _naam ;}
+            get => _naam;
             set
             {
                 _naam = value;
@@ -38,7 +38,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal Kilocalorieën
         {
-            get { return _kilocalorieën; }
+            get => _kilocalorieën;
             set
             {
                 _kilocalorieën = value;
@@ -48,7 +48,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal Kilojoules
         {
-            get { return _kilojoules; }
+            get => _kilojoules;
             set
             {
                 _kilojoules = value;
@@ -59,7 +59,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal Water
         {
-            get { return _water; }
+            get => _water;
             set
             {
                 _water = value;
@@ -69,7 +69,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal Eiwit
         {
-            get { return _eiwit; }
+            get => _eiwit;
             set
             {
                 _eiwit = value;
@@ -79,7 +79,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal Koolhydraten
         {
-            get { return _koolhydraten; }
+            get => _koolhydraten;
             set
             {
                 _koolhydraten = value;
@@ -89,7 +89,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal Suikers
         {
-            get { return _suikers; }
+            get => _suikers;
             set
             {
                 _suikers = value;
@@ -99,7 +99,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal Vet
         {
-            get { return _vet; }
+            get => _vet;
             set
             {
                 _vet = value;
@@ -110,7 +110,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal VerzadigdVet
         {
-            get { return _verzadigdVet; }
+            get => _verzadigdVet;
             set
             {
                 _verzadigdVet = value;
@@ -120,7 +120,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal EnkelvoudigOnverzadigdVet
         {
-            get { return _enkelvoudigOnverzadigdVet; }
+            get => _enkelvoudigOnverzadigdVet;
             set
             {
                 _enkelvoudigOnverzadigdVet = value;
@@ -130,7 +130,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal MeervoudigOnverzadigdeVetzuren
         {
-            get { return _meervoudigOnverzadigdeVetzuren; }
+            get => _meervoudigOnverzadigdeVetzuren;
             set
             {
                 _meervoudigOnverzadigdeVetzuren = value;
@@ -140,7 +140,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal Cholesterol
         {
-            get { return _cholesterol; }
+            get => _cholesterol;
             set
             {
                 _cholesterol = value;
@@ -150,7 +150,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         public decimal Vezels
         {
-            get { return _vezels; }
+            get => _vezels;
             set
             {
                 _vezels = value;
@@ -162,7 +162,7 @@ namespace VoedingsstoffenCalcu.DomainClasses
 
         private void OnPropertyChanged([CallerMemberName] string caller = "")
         {
-            if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(caller));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
         }
 
     }

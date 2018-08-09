@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VoedigsstoffenCalcu.WPFApp"
         mc:Ignorable="d"
-        Title="Voedingsstoffen Calculator" Height="525" Width="850" SizeToContent="WidthAndHeight" >
+        Title="Voedingsstoffen Calculator" Height="560" Width="870" SizeToContent="WidthAndHeight" >
     <Window.Resources>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -46,16 +46,15 @@
     <DockPanel>
         <Menu Background="White" DockPanel.Dock="Top">
             <MenuItem FontSize="13" FontWeight="DemiBold" Header="Beheer">
-                <MenuItem x:Name="MenuItemNieuwProduct" Header="_Nieuw Product" />
-                <MenuItem x:Name="MenuItemProductVerwijderen" IsEnabled="False" Header="_Porduct Verwijderen" />
-                <MenuItem x:Name="MenuItemProductAanpassen" IsEnabled="False" Header="_Product Aanpassen" />
+                <MenuItem x:Name="MenuItemNieuwProduct" Header="_Nieuw product" />
+                <MenuItem x:Name="MenuItemProductVerwijderen" IsEnabled="False" Header="_Porduct verwijderen" />
+                <MenuItem x:Name="MenuItemProductAanpassen" IsEnabled="False" Header="_Product aanpassen" />
                 <MenuItem x:Name="MenuItemResetDatabase" Header="_Database herbouwen" />
-
                 <Separator />
-                <MenuItem x:Name="MenuItemExit" Header="_Exit" />
+                <MenuItem x:Name="MenuItemExit" Header="_Sluiten" />
             </MenuItem>
             <MenuItem  FontSize="13" FontWeight="DemiBold"   Header="_Help">
-                <MenuItem x:Name="MenuItemHelp" Header="_About" />
+                <MenuItem x:Name="MenuItemInfo" Header="_Info" />
             </MenuItem>
         </Menu>
         <Grid Background="LightSkyBlue">
@@ -81,7 +80,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Margin="10" >
-                <Label Margin="10,5,10,2" Width="300" Height="30" Content="Stap 3: Voer gewicht in (100)"></Label>
+                <Label Margin="10,5,10,2" Width="300" Height="30" Content="Stap 3: Voer het aantal gram in"></Label>
                 <StackPanel Orientation="Horizontal">
                     <TextBox Background="White" FontWeight="DemiBold" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  x:Name="TextBoxEnter" PreviewKeyDown="TextBoxEnter_OnPreviewKeyDown" IsEnabled="false" Margin="10,5,10,10"  BorderBrush="AliceBlue" Width="200" BorderThickness="0" Height="30" ></TextBox>
                     <Button x:Name="ButtonEnter" FontSize="13" FontWeight="Bold" Style="{StaticResource RoundButtonTemplate}" IsEnabled="False" Margin="0,0,0,5" Height="30" Width="90" Content="Ingeven"></Button>
